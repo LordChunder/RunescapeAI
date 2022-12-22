@@ -1,12 +1,13 @@
 import win32gui
 
 import main
+
 global hwnd
 
 
-def find_runelite_window(userName):  # returns PID of runelite app
+def find_runelite_window():  # returns PID of runelite app
     global hwnd
-    hwnd = win32gui.FindWindow(None, main.config_yaml['client_title'] + userName)
+    hwnd = win32gui.FindWindow(None, main.config_yaml['client_title'] + main.config_yaml['user']['user_name'])
     print("Found runescape client window as: ", hwnd)
 
     win32gui.MoveWindow(hwnd, 0, -25, 865, 830, True)

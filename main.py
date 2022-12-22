@@ -9,8 +9,7 @@ from controllers import fishing, woodcutting, combat
 
 modes = {0: woodcutting.start_woodcutting, 1: fishing.start_fishing, 2: combat.start_combat}
 
-activeModes = [2]
-pyautogui.FAILSAFE = False
+activeModes = [2]  # Set the active modes from above to run
 
 global config_yaml
 
@@ -25,9 +24,11 @@ def read_config():
         config_yaml = yaml.safe_load(file)
 
 
+pyautogui.FAILSAFE = False
 if __name__ == '__main__':
-    core.find_runelite_window("LordChunder")
+    core.find_runelite_window()
     time.sleep(1)
+
     botfunctions.login()
     lastMode = None
     while True:
