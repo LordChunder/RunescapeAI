@@ -25,4 +25,4 @@ def find_runelite_window():  # returns PID of runelite app
 
 
 def get_window_size():
-    return 0, 0, 865, 830
+    return 0, 0, 865, 830 - 25

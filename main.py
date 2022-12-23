@@ -21,9 +21,8 @@ if __name__ == '__main__':
     pytesseract.pytesseract.tesseract_cmd = core.config_yaml['tesseract_path'] + 'tesseract.exe'
     pyautogui.FAILSAFE = False
     core.find_runelite_window()
-    time.sleep(1)
+    pyautogui.alert('Ready to start?')
 
-    botfunctions.login()
     lastMode = None
     while True:
         runTimeSeconds = random.uniform(60 * 60 * 1.5, 60 * 60 * 4.5)

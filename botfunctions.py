@@ -55,6 +55,25 @@ def get_xp_for_skill(skill_name):
         return 0
 
 
+def inventory_count(item_id=0):
+    try:
+        r = requests.get("http://localhost:8081/inv")
+        count = 0
+        for item in r.json():
+            if item_id is None:
+                if item['id'] != 1:
+                    count += 1
+            else:
+                if item['id'] == item_id:
+                    count += 1
+
+        print("Inventory count:", item_id, count)
+        return count
+    except Exception:
+        print("Failed to get inventory count")
+        return False
+
+
 def is_inventory_full():
     try:
         r = requests.get("http://localhost:8081/inv")

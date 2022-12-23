@@ -23,9 +23,16 @@ object_list = [red, green, amber, enemy_blue, blue]
 
 
 def screen_image(save_screenshot=False):
+    """
+    Screenshots the RuneLite client area and updates the global variable
+    :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
+    """
     global screenshot_image
     x, y, w, h = core.get_window_size()
     img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+
+    # noinspection PyTypeChecker
+    screenshot_image = numpy.array(img)[:, :, ::-1].copy()
 
     if save_screenshot:
         img.save('images/screenshot.png', 'png')
@@ -38,46 +45,42 @@ def find_object(colorIndex):
     :param colorIndex: The color to detect
     :return:  The center of the closest object to the player otherwise False
     """
-    try:
-        global screenshot_image
-        screen_image()
-        image = screenshot_image
 
-        image = cv2.rectangle(image, pt1=(562, 0), pt2=(825, 183), color=(0, 0, 0), thickness=-1)  # hide minimap
-        image = cv2.rectangle(image, pt1=(430, 0), pt2=(460, 23), color=(0, 0, 0), thickness=-1)  # hide xp bar
-        image = cv2.rectangle(image, pt1=(540, 725), pt2=(770, 770), color=(0, 0, 0), thickness=-1)  # hide xp bar
+    global screenshot_image
+    screen_image()
+    img_rbg = screenshot_image
+    img_rbg = cv2.rectangle(img_rbg, pt1=(562, 0), pt2=(825, 183), color=(0, 0, 0), thickness=-1)  # hide minimap
+    img_rbg = cv2.rectangle(img_rbg, pt1=(430, 0), pt2=(460, 23), color=(0, 0, 0), thickness=-1)  # hide xp bar
+    img_rbg = cv2.rectangle(img_rbg, pt1=(540, 725), pt2=(770, 770), color=(0, 0, 0), thickness=-1)  # hide xp bar
 
-        boundaries = [object_list[colorIndex]]
-        contours = None
-        # loop over the boundaries
+    boundaries = [object_list[colorIndex]]
+    contours = None
+    # loop over the boundaries
 
-        for (lower, upper) in boundaries:
-            # create NumPy arrays from the boundaries
-            lower = numpy.array(lower, dtype="uint8")
-            upper = numpy.array(upper, dtype="uint8")
-            # find the colors within the specified boundaries and apply
+    for (lower, upper) in boundaries:
+        # create NumPy arrays from the boundaries
+        lower = numpy.array(lower, dtype="uint8")
+        upper = numpy.array(upper, dtype="uint8")
+        # find the colors within the specified boundaries and apply
 
-            mask = cv2.inRange(image, lower, upper)
-            thresh, dst = cv2.threshold(mask, 40, 255, 0)
-            cv2.imwrite("images/mask.png", mask)
-            contours, hierarchy = cv2.findContours(dst, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        if len(contours) > 0:
-            # find the biggest contour (c) by the area
-            centers = map(get_contour_center, contours)
-            closest = min(centers, key=lambda c: math.dist(c, [385, 400]))
-            offset = closest[0] + random.randrange(-4, 4), closest[1] + random.randrange(-4, 4)
+        mask = cv2.inRange(img_rbg, lower, upper)
+        thresh, dst = cv2.threshold(mask, 40, 255, 0)
+        cv2.imwrite("images/mask.png", mask)
+        contours, hierarchy = cv2.findContours(dst, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if len(contours) > 0:
+        # find the biggest contour (c) by the area
+        centers = map(get_contour_center, contours)
+        closest = min(centers, key=lambda c: math.dist(c, [385, 400]))
+        offset = closest[0] + random.randrange(-4, 4), closest[1] + random.randrange(-4, 4)
 
-            b = random.uniform(0.2, 0.4)
-            pyautogui.moveTo(offset, duration=b)
-            b = random.uniform(0.01, 0.05)
-            pyautogui.click(duration=b)
-            return offset
-        else:
-            print("No detected contours")
-            return False
-    except Exception:
-        print("Ocr failed to recognize object")
-    return False
+        b = random.uniform(0.2, 0.4)
+        pyautogui.moveTo(offset, duration=b)
+        b = random.uniform(0.01, 0.05)
+        pyautogui.click(duration=b)
+        return offset
+    else:
+        print("No detected contours")
+        return False
 
 
 def get_contour_center(c):
@@ -97,6 +100,7 @@ def image_count(image, threshold=0.7):
     :param threshold: Detection threshold [0-1]
     :return:  The number of instances on screen of the image
     """
+    global screenshot_image
     counter = 0
     screen_image()
 
@@ -114,17 +118,16 @@ def image_count(image, threshold=0.7):
     return counter
 
 
-def xp_gain_check(image, threshold=0.7):
+def xp_gain_check_screenshot(image, threshold=0.7):
     """
     Checks to see if the player has experience gain on screen
     :param image: The experience icon to look for
     :param threshold: Detection threshold [0-1]
     :return: Was successful
     """
+    global screenshot_image
     screen_image()
-
-    img = cv2.imread('images/screenshot.png')[40:275, 500:615]
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_gray = cv2.cvtColor(screenshot_image, cv2.COLOR_BGR2GRAY)
     template = cv2.imread('images/icons/' + image, 0)
 
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
@@ -137,8 +140,9 @@ def xp_gain_check(image, threshold=0.7):
 
 def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, clicker='left', img_space=20,
                            inventory_area=False):
+    global screenshot_image
     screen_image()
-    img_rgb = cv2.imread('images/screenshot.png')
+    img_rgb = screenshot_image
 
     cropX, cropY = 0, 0
     if inventory_area:
@@ -176,8 +180,8 @@ def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, cli
 
 
 def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, clicker='left', img_space=10,
-                        inventory_area=True,
-                        minWaitTime=0):
+                        inventory_area=True, click_interval=0):
+    global screenshot_image
     screen_image()
     img_rgb = screenshot_image
 
@@ -188,7 +192,6 @@ def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, click
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread('images/icons/' + image, 0)
-    # cv2.imwrite('images/screenshot2.png', img_gray)
 
     w, h = template.shape[::-1]
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
@@ -209,6 +212,6 @@ def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, click
             b = random.uniform(0.01, 0.05)
             pyautogui.click(item_pos, duration=b, button=clicker)
 
-            if minWaitTime > 0:
-                antiafk.random_break(minWaitTime, minWaitTime + .8)
+            if click_interval > 0:
+                antiafk.random_break(click_interval, click_interval + .8)
     return success

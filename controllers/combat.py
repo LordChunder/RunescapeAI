@@ -61,8 +61,8 @@ def drop_unwanted_items():
 
 
 def pray_with_bones():
-    print("Praying to allah")
-    ocr.image_rec_click_all('bones.png', minWaitTime=.5)
+    print("Praying to Allah")
+    ocr.image_rec_click_all('bones.png', click_interval=.5)
     antiafk.random_break(1.5, 3)
 
 

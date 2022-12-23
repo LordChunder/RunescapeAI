@@ -1,39 +1,13 @@
 import random
 import time
-
 import pyautogui
 
-global nextActionTime, nextPhraseTime, lastPhrase
-nextActionTime = time.time() + random.randint(30, 180)
-nextPhraseTime = 0
-lastPhrase = 0
-
-phrases = ["has anyone else been playing runescape since the early days?", "who knew grinding would be so peaceful lol",
-           "ive been doing this for hours and barely leveled up...", "anyone wana buy wood?", "noob",
-           "is this even worth it?", "is anyone level 99?", "can someone with members help me?",
-           "can you help me get rune?", "i havent played in years can you help me?", "is this still worth grinding on?"]
-random.shuffle(phrases)
+global nextActionTime
 
 
 def random_break(minSec, maxSec):
     length = random.uniform(minSec, maxSec)
     time.sleep(length)
-
-
-def random_phrase_speak():
-    global lastPhrase, nextPhraseTime
-    if time.time() > nextPhraseTime:
-        pyautogui.press('enter')
-        random_break(.1, .4)
-        pyautogui.typewrite(phrases[lastPhrase], interval=random.uniform(.2, .5))
-        random_break(.3, 1.2)
-        pyautogui.press('enter')
-        random_break(.5, 1.2)
-        lastPhrase += 1
-        nextPhraseTime = time.time() + random.randint(600, 1250)
-        if lastPhrase >= len(phrases):
-            lastPhrase = 0
-            random.shuffle(phrases)
 
 
 def random_camera():

@@ -31,6 +31,6 @@ def build_ui():
     window.mainloop()
 
 
-def button_click_woodcutting(event):
+def button_click_woodcutting():
     statusLabel["text"] = "Status: WOOD CUTTING"
     woodcutting.start_woodcutting()
