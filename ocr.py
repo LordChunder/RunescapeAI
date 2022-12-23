@@ -4,14 +4,10 @@ import random
 import cv2
 import numpy
 import pyautogui
-import pytesseract
 from PIL import ImageGrab
 
 import antiafk
 import core
-import main
-
-pytesseract.pytesseract.tesseract_cmd = main.config_yaml['tesseract_path'] + 'tesseract.exe'
 
 global screenshot_image
 

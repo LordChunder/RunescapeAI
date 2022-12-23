@@ -1,7 +1,8 @@
 import random
 import time
+
 import pyautogui
-import yaml
+import pytesseract
 
 import botfunctions
 import core
@@ -11,21 +12,14 @@ modes = {0: woodcutting.start_woodcutting, 1: fishing.start_fishing, 2: combat.s
 
 activeModes = [2]  # Set the active modes from above to run
 
-global config_yaml
-
 
 def bot_loop(botMode):
     botMode()
 
 
-def read_config():
-    global config_yaml
-    with open('config.yml', 'r') as file:
-        config_yaml = yaml.safe_load(file)
-
-
-pyautogui.FAILSAFE = False
 if __name__ == '__main__':
+    pytesseract.pytesseract.tesseract_cmd = core.config_yaml['tesseract_path'] + 'tesseract.exe'
+    pyautogui.FAILSAFE = False
     core.find_runelite_window()
     time.sleep(1)
 

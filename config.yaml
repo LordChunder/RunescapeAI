@@ -1,6 +1,6 @@
-client_title: Runelite -
+client_title: 'Runelite - '
 tesseract_path: C:\Program Files\Tesseract-OCR\
 
 user:
   user_name: "Player"
-  password: "#######"
+  password: "Password"

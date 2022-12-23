@@ -5,8 +5,8 @@ import pyautogui
 import requests
 
 import antiafk
-import main
 import ocr
+from core import config_yaml
 
 
 def drop_item():
@@ -84,7 +84,7 @@ def login():
     antiafk.random_break(.7, 1.6)
     pyautogui.press('enter')
     antiafk.random_break(.8, 1.8)
-    pyautogui.typewrite(main.config_yaml['user']['password'], interval=random.uniform(.2, .5))
+    pyautogui.typewrite(config_yaml['user']['password'], interval=random.uniform(.2, .5))
     antiafk.random_break(.8, 1.8)
     pyautogui.press('enter')
     antiafk.random_break(5, 8)
