@@ -30,7 +30,7 @@ Download Python from: <https://www.python.org/downloads/>
 
 
 ## How To Use
-This document is a work in progress as features are rapidly updating
+This document is a work in progress as features are rapidly updating.
 Current use can be demonstrated within the controller python files and ran with the GUI.
 
 ## Disclaimer
