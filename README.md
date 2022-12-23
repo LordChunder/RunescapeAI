@@ -2,11 +2,13 @@
 ### A bot for Old School RuneScape written in Python
 *RunescapeAI is a work in progress and not fully complete
 
-#### Links
 1. [Requirements](#Requirements)
 2. [Set-Up](#Set-Up)
 3. [How To Use](#How-To-Use)
+   * [Wood Cutting](#Wood-Cutting)
+   * [Fishing](#Fishing)
    * [Combat](#Combat)
+4. [Disclaimer](#Disclaimer)
 
 ## Requirements
 
@@ -28,4 +30,10 @@ Download Python from: <https://www.python.org/downloads/>
 
 
 ## How To Use
-### Combat
+This document is a work in progress as features are rapidly updating
+Current use can be demonstrated within the controller python files and ran with the GUI.
+
+## Disclaimer
+Botting or Macroing is against the rules of OSRS and may result in a ban.
+This bot does its best to remain unpredictable and random to avoid detection. To minimize your chances of being banned avoid using the bot for extended periods and cycle through different modes. 
+This bot is to be used at your own risk under the assumption that your account may be banned.
