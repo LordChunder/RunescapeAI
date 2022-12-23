@@ -4,7 +4,7 @@ import pyautogui
 
 import antiafk
 import botfunctions
-import ocr
+import imgdetection
 
 global running, icon_name
 
@@ -31,26 +31,25 @@ def start_woodcutting(wood_icon='willow.png', dispose='BANK'):
             running = False
         else:
             print("Chopping Wood")
-            ocr.find_object(2)
+            imgdetection.find_object(2)
             antiafk.random_break(8, 15)
 
         antiafk.random_action()
-        # antiafk.random_phrase_speak()
 
 
 def drop_all_wood():
     print("Dropping wood")
     botfunctions.drop_item()
-    ocr.image_rec_click_all(icon_name)
+    imgdetection.image_rec_click_all(icon_name)
     botfunctions.release_drop_item()
 
 
 def deposit_in_bank():
     antiafk.random_break(1, 3)
     print("Depositing wood in bank")
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(15, 19)
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(.7, 1.5)
     drop_all_wood()
     antiafk.random_break(1, 3)
@@ -67,7 +66,7 @@ def do_fire_making(num_per_row=6):
     burnCount = 0
     timeoutCount = 0
 
-    ocr.find_object(4)
+    imgdetection.find_object(4)
 
     antiafk.random_break(8, 15)
 
@@ -85,9 +84,9 @@ def do_fire_making(num_per_row=6):
 
         # click on tinder and wood
         antiafk.random_break(0.1, 2)
-        ocr.image_rec_click_single(icon_name, 5, 5, 0.75, 'left', 8)
+        imgdetection.image_rec_click_single(icon_name, 5, 5, 0.75, 'left', 8)
         antiafk.random_break(0.1, 1)
-        ocr.image_rec_click_single('tinderbox.png', 5, 5, 0.75, 'left', 8)
+        imgdetection.image_rec_click_single('tinderbox.png', 5, 5, 0.75, 'left', 8)
         timeout = time.time() + random.uniform(10, 15)
 
         # check for XP gain

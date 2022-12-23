@@ -4,7 +4,7 @@ import pyautogui
 
 import antiafk
 import botfunctions
-import ocr
+import imgdetection
 
 global running, fish_icon
 
@@ -26,17 +26,16 @@ def start_fishing(fish='shrimp.png', dispose='BANK'):
             running = False
         else:
             print("Fishing")
-            ocr.find_object(0)
+            imgdetection.find_object(0)
             antiafk.random_break(8, 15)
 
         antiafk.random_action()
-        # antiafk.random_phrase_speak()
 
 
 def drop_all_fish():
     print("Dropping fish")
     botfunctions.drop_item()
-    ocr.image_rec_click_all(fish_icon)
+    imgdetection.image_rec_click_all(fish_icon)
     botfunctions.release_drop_item()
 
 
@@ -44,9 +43,9 @@ def deposit_in_bank():
     antiafk.random_break(1, 3)
     print("Depositing fish in bank")
     antiafk.random_break(.3, .8)
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(20, 25)
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(.7, 1.5)
     drop_all_fish()
     antiafk.random_break(1, 3)

@@ -3,7 +3,7 @@ import time
 
 import antiafk
 import botfunctions
-import ocr
+import imgdetection
 
 global running
 
@@ -17,7 +17,7 @@ def start_combat():
     while running:
         print("Attacking enemy")
 
-        ocr.find_object(3)
+        imgdetection.find_object(3)
         noCombatTimer = 0
         interval = random.uniform(4.5, 6.5)
         lastTime = time.time()
@@ -56,18 +56,18 @@ def drop_unwanted_items():
     for item in unwantedItems:
         print("Dropping: ", item)
         botfunctions.drop_item()
-        ocr.image_rec_click_all(item)
+        imgdetection.image_rec_click_all(item)
         botfunctions.release_drop_item()
 
 
 def pray_with_bones():
     print("Praying to Allah")
-    ocr.image_rec_click_all('bones.png', click_interval=.5)
+    imgdetection.image_rec_click_all('bones.png', click_interval=.5)
     antiafk.random_break(1.5, 3)
 
 
 def pickup_bones():
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(1.7, 3)
-    ocr.find_object(4)
+    imgdetection.find_object(4)
     antiafk.random_break(.3, .7)

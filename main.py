@@ -3,7 +3,7 @@ import random
 import time
 
 import pyautogui
-import pytesseract
+
 from pynput import keyboard
 
 import botfunctions
@@ -28,7 +28,6 @@ if __name__ == '__main__':
     hotkey = keyboard.GlobalHotKeys({'<ctrl>+c': on_exit_program})
     hotkey.start()
 
-    pytesseract.pytesseract.tesseract_cmd = core.config_yaml['tesseract_path'] + 'tesseract.exe'
     pyautogui.FAILSAFE = False
 
     core.find_runelite_window()
