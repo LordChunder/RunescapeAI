@@ -2,7 +2,7 @@ import random
 import time
 import pyautogui
 
-global nextActionTime
+nextActionTime = time.time() + random.randint(30, 180)
 
 
 def random_break(minSec, maxSec):
@@ -78,6 +78,7 @@ actions = {0: random_inventory,
 
 def random_action():
     global nextActionTime
+
     if time.time() > nextActionTime:
         actions[random.randint(0, len(actions) - 1)]()
         nextActionTime = time.time() + random.randint(30, 180)

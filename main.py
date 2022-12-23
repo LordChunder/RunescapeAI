@@ -1,15 +1,16 @@
+import os
 import random
 import time
 
 import pyautogui
 import pytesseract
+from pynput import keyboard
 
 import botfunctions
 import core
 from controllers import fishing, woodcutting, combat
 
 modes = {0: woodcutting.start_woodcutting, 1: fishing.start_fishing, 2: combat.start_combat}
-
 activeModes = [2]  # Set the active modes from above to run
 
 
@@ -17,11 +18,21 @@ def bot_loop(botMode):
     botMode()
 
 
+def on_exit_program():
+    pyautogui.press('shift')
+    # noinspection PyUnresolvedReferences,PyProtectedMember
+    os._exit(0)
+
+
 if __name__ == '__main__':
+    hotkey = keyboard.GlobalHotKeys({'<ctrl>+c': on_exit_program})
+    hotkey.start()
+
     pytesseract.pytesseract.tesseract_cmd = core.config_yaml['tesseract_path'] + 'tesseract.exe'
     pyautogui.FAILSAFE = False
+
     core.find_runelite_window()
-    pyautogui.alert('Ready to start?')
+    pyautogui.alert('Start bot (Ctrl+C to exit)')
 
     lastMode = None
     while True:
