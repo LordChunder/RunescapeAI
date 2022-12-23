@@ -1,3 +1,4 @@
+# noinspection PyPackageRequirements
 import win32gui
 import yaml
 

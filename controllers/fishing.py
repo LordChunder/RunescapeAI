@@ -15,10 +15,8 @@ def start_fishing(fish='shrimp.png', dispose='BANK'):
     running = True
     while running:
         botfunctions.open_inventory()
-        inventory_full = botfunctions.is_inventory_full()
-        print("Inventory full: ", inventory_full)
 
-        if inventory_full:
+        if botfunctions.is_inventory_full():
             if dispose == "BANK":
                 deposit_in_bank()
             drop_all_fish()
