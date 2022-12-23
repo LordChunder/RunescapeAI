@@ -12,10 +12,13 @@
 
 + Python >= 3.8 
 Download Python from: <https://www.python.org/downloads/>
-+ Tesseract-OCR Image
-
+   * For depencies see [requirements.txt](/requirements.txt)
 
 ## Set-Up
+1. Install Python 3.8 or higher 
+2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
+    * Open a console inside the root RunscapeAI folder
+    * run ```$ pip install -r requirements.txt```
 
 
 ## How To Use
