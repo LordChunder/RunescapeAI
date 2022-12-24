@@ -6,14 +6,16 @@ import antiafk
 import botfunctions
 import imgdetection
 
-global running, icon_name
+global running, icon_name, bot_instance, wood_selection
 
-item_numbers = {'yew': 1515}
+wood_numbers = {'willow': 1519}
 
 
-def start_woodcutting(wood_icon='willow.png', dispose='BANK'):
-    global running, icon_name
-    icon_name = wood_icon
+def start_woodcutting(ibot, wood='willow', dispose='BANK'):
+    global running, icon_name, bot_instance, wood_selection
+    bot_instance = ibot
+    wood_selection = wood
+    icon_name = wood_selection + '.png'
     running = True
 
     while running:
@@ -31,7 +33,9 @@ def start_woodcutting(wood_icon='willow.png', dispose='BANK'):
             running = False
         else:
             print("Chopping Wood")
+            bot_instance.bot_status.value = 3
             imgdetection.find_object(2)
+            bot_instance.bot_status.value = 0
             antiafk.random_break(8, 15)
 
         antiafk.random_action()
@@ -39,6 +43,7 @@ def start_woodcutting(wood_icon='willow.png', dispose='BANK'):
 
 def drop_all_wood():
     print("Dropping wood")
+    bot_instance.bot_status.value = 4
     botfunctions.drop_item()
     imgdetection.image_rec_click_all(icon_name)
     botfunctions.release_drop_item()
@@ -47,6 +52,7 @@ def drop_all_wood():
 def deposit_in_bank():
     antiafk.random_break(1, 3)
     print("Depositing wood in bank")
+    bot_instance.bot_status.value = 2
     imgdetection.find_object(4)
     antiafk.random_break(15, 19)
     imgdetection.find_object(4)
@@ -63,6 +69,7 @@ def do_fire_making(num_per_row=6):
     print("Burning Wood")
     antiafk.random_break(1, 3)
 
+    bot_instance.bot_status.value = 5
     burnCount = 0
     timeoutCount = 0
 
@@ -70,7 +77,7 @@ def do_fire_making(num_per_row=6):
 
     antiafk.random_break(8, 15)
 
-    inventory_count = botfunctions.inventory_count(item_numbers['yew'])
+    inventory_count = botfunctions.inventory_count(wood_numbers[wood_selection])
     while inventory_count > 0:
         if timeoutCount > 2:
             drop_all_wood()
@@ -95,7 +102,7 @@ def do_fire_making(num_per_row=6):
             xp = botfunctions.get_xp_for_skill('Firemaking')
             if 0 < xp > lastXP:
                 print("Fire made (XP Gained)", xp, lastXP)
-                inventory_count = botfunctions.inventory_count(item_numbers['yew'])
+                inventory_count = botfunctions.inventory_count(wood_numbers[wood_selection])
                 burnCount += 1
                 timeoutCount = 0
                 break

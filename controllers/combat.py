@@ -5,19 +5,21 @@ import antiafk
 import botfunctions
 import imgdetection
 
-global running
+global running, bot_instance
 
 unwantedItems = ["raw_hide.png", "raw_beef.png"]
 
 
-def start_combat():
-    global running
+def start_combat(ibot):
+    global running, bot_instance
+    bot_instance = ibot
 
     running = True
     while running:
         print("Attacking enemy")
-
+        bot_instance.bot_status.value = 3
         imgdetection.find_object(3)
+        bot_instance.bot_status.value = 0
         noCombatTimer = 0
         interval = random.uniform(4.5, 6.5)
         lastTime = time.time()
@@ -53,6 +55,7 @@ def start_combat():
 
 
 def drop_unwanted_items():
+    bot_instance.bot_status.value = 4
     for item in unwantedItems:
         print("Dropping: ", item)
         botfunctions.drop_item()
@@ -61,6 +64,7 @@ def drop_unwanted_items():
 
 
 def pray_with_bones():
+    bot_instance.bot_status.value = 5
     print("Praying to Allah")
     imgdetection.image_rec_click_all('bones.png', click_interval=.5)
     antiafk.random_break(1.5, 3)

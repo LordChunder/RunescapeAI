@@ -71,7 +71,7 @@ def find_object(colorIndex):
         # find the biggest contour (c) by the area
         centers = map(get_contour_center, contours)
         closest = min(centers, key=lambda c: math.dist(c, [385, 400]))
-        offset = closest[0] + random.randrange(-4, 4), closest[1] + random.randrange(-4, 4)
+        offset = closest[0] + random.randrange(-2, 2), closest[1] + random.randrange(-2, 2)
 
         b = random.uniform(0.2, 0.4)
         pyautogui.moveTo(offset, duration=b)

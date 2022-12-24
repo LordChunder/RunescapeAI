@@ -14,7 +14,7 @@
 
 + Python >= 3.8 
 Download Python from: <https://www.python.org/downloads/>
-   * For depencies see [requirements.txt](/requirements.txt)
+   * For dependencies see [requirements.txt](/requirements.txt)
 + RuneLite Old School RuneScape Client <https://runelite.net/>
    * MorgHTTP <https://runelite.net/plugin-hub/show/morghttpclient>
 
@@ -24,7 +24,7 @@ Download Python from: <https://www.python.org/downloads/>
     * Open a console inside the root RunscapeAI folder
     * run ```$ pip install -r requirements.txt```
 3. Configure RuneLite
-    * Ensure MorgHTTP is installed [MorgHTTP](https://runelite.net/plugin-hub/show/morghttpclient)
+    * Ensure MorgHTTPClient is installed [https://runelite.net/plugin-hub/show/morghttpclient](https://runelite.net/plugin-hub/show/morghttpclient)
     * Enable hold shift to drop items
     * Set-up object highlighting and tile outlines
 
@@ -34,6 +34,6 @@ This document is a work in progress as features are rapidly updating.
 Current use can be demonstrated within the controller python files and ran with the GUI.
 
 ## Disclaimer
-Botting or Macroing is against the rules of OSRS and may result in a ban.
+Botting or using macros is against the rules of OSRS and may result in a ban.
 This bot does its best to remain unpredictable and random to avoid detection. To minimize your chances of being banned avoid using the bot for extended periods and cycle through different modes. 
 This bot is to be used at your own risk under the assumption that your account may be banned.
