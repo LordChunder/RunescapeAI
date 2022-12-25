@@ -64,10 +64,10 @@ def drop_unwanted_items():
         botfunctions.release_drop_item()
 
 
-def pray_with_bones():
+def pray_with_bones(bones_id=526):
     print("Praying with bones")
     bot_instance.bot_status.value = 5
-    imgdetection.image_rec_click_all('bones.png', click_interval=.5)
+    imgdetection.image_rec_click_all(bones_id, click_interval=.5)
     antiafk.random_break(1.5, 3)
 
 
