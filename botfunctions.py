@@ -41,7 +41,7 @@ def open_inventory():
 
 def get_xp_for_skill(skill_name):
     try:
-        r = requests.get("http://localhost:8081/stats")
+        r = requests.get(config_yaml['morg_url'] + "/stats")
         if r.status_code != 200:
             return 0
         json = r.json()
@@ -57,7 +57,7 @@ def get_xp_for_skill(skill_name):
 
 def inventory_count(item_id=0):
     try:
-        r = requests.get("http://localhost:8081/inv")
+        r = requests.get(config_yaml['morg_url'] + "/inv")
         count = 0
         for item in r.json():
             if item_id is None:
@@ -76,7 +76,7 @@ def inventory_count(item_id=0):
 
 def is_inventory_full():
     try:
-        r = requests.get("http://localhost:8081/inv")
+        r = requests.get(config_yaml['morg_url'] + "/inv")
         arr = []
         for item in r.json():
             if item['id'] != -1:
@@ -96,7 +96,7 @@ def logout():
     b = random.uniform(0.1, 0.3)
     pyautogui.click(coord, duration=b, button='left')
     antiafk.random_break(.6, 1.5)
-    imgdetection.image_rec_click_single(config_yaml['images']['logout_button'])
+    imgdetection.image_rec_click_single(config_yaml['image_names']['logout_button'])
 
 
 def login():
@@ -107,7 +107,7 @@ def login():
     antiafk.random_break(.8, 1.8)
     pyautogui.press('enter')
     antiafk.random_break(5, 8)
-    imgdetection.image_rec_click_single(config_yaml['images']['play_button'])
+    imgdetection.image_rec_click_single(config_yaml['image_names']['play_button'])
     antiafk.random_break(3, 8)
 
 
