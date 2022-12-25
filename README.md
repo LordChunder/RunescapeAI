@@ -2,7 +2,7 @@
 
 ### A bot for Old School RuneScape written in Python
 
-*RunescapeAI is a work in progress and not fully complete
+*RunescapeAI is a work in progress and not fully complete*
 
 1. [Requirements](#Requirements)
 2. [Set-Up](#Set-Up)
@@ -21,6 +21,8 @@
     * MorgHTTP <https://runelite.net/plugin-hub/show/morghttpclient>
 
 ## Set-Up
+***Download and unzip RunescapeAI from:***
+    <https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip>
 
 1. Install Python 3.8 or higher <https://www.python.org/downloads/>
 2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
@@ -77,20 +79,23 @@ highlighted entities in RuneLite.
 * Any in game items that need to interact with the bot (ie pickup, drop, eat, combine) need to be configured
   in [items.yaml](items.yaml) ([Set-Up](#set-up))
 * When selected multiple modes to run it is crucial that colors do not overlap between modes. Example:
-  * If fishing and woodcutting make sure the highlited trees and fishing spots are not the same color as the bot will not be able to distinguish between trees and fishing spots.
+    * If fishing and woodcutting make sure the highlited trees and fishing spots are not the same color as the bot will
+      not be able to distinguish between trees and fishing spots.
 
 To run start and run RunescapeAI:
+
 1. Launch RuneLite and login to your account
 2. Open a console inside the RunescapeAI folder and run command `python main.py`
     * RuneLite must be running prior as the name of this window will be used in the bot to find the RuneLite window
 3. Select the bot modes and click run
     * If multiple bot modes are selected they will be cycled randomly
 4. Stop the bot by:
-   * Exiting the bot with hotkey: `ctrl-c`
-   * Clicking stop
-   * Closing the RunescapeAI window
+    * Exiting the bot with hotkey: `ctrl-c`
+    * Clicking stop
+    * Closing the RunescapeAI window
 
 #### Disclaimer
+
 <sub>*Botting or using macros is against the rules of OSRS and may result in a ban.
 This bot does its best to remain unpredictable and random to avoid detection. To minimize your chances of being banned
 avoid using the bot for extended periods and cycle through different modes.
