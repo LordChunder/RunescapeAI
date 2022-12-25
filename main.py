@@ -7,8 +7,6 @@ import core
 import gui
 from bot import Bot
 
-bot_instance = Bot()
-
 
 def on_exit_program():
     pyautogui.press('shift')
@@ -20,12 +18,11 @@ if __name__ == '__main__':
     hotkey = keyboard.GlobalHotKeys({'<ctrl>+c': on_exit_program})
     hotkey.start()
     pyautogui.FAILSAFE = False
-
-    gui.build_ui()
+    bot_instance = Bot()
+    gui.build_ui(bot_instance)
     gui.update_loop()
 
     core.configure_ui_window()
-
     core.find_runelite_window()
     while True:
         gui.update_loop()

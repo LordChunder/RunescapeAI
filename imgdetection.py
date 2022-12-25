@@ -7,7 +7,7 @@ import pyautogui
 from PIL import ImageGrab
 
 import antiafk
-import core
+from core import item_yaml, get_window_size
 
 global screenshot_image
 
@@ -19,7 +19,7 @@ amber = ([0, 200, 200], [60, 255, 255])  # 2 Index
 enemy_blue = ([170, 170, 0], [255, 255, 50])  # 3 Index
 blue = ([170, 0, 0], [255, 50, 50])  # 4 Index
 
-object_list = [red, green, amber, enemy_blue, blue]
+detection_colors = [red, green, amber, enemy_blue, blue]
 
 
 def screen_image(save_screenshot=False):
@@ -28,7 +28,7 @@ def screen_image(save_screenshot=False):
     :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
     """
     global screenshot_image
-    x, y, w, h = core.get_window_size()
+    x, y, w, h = get_window_size()
     img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
 
     # noinspection PyTypeChecker
@@ -38,11 +38,11 @@ def screen_image(save_screenshot=False):
         img.save('images/screenshot.png', 'png')
 
 
-def find_object(colorIndex):
+def object_rec_click_closest_single(color_index):
     """
     Find the position of an object on screen within the range of the specified color
     Arguments:
-    :param colorIndex: The color to detect
+    :param color_index: The color to detect
     :return:  The center of the closest object to the player otherwise False
     """
 
@@ -53,7 +53,7 @@ def find_object(colorIndex):
     img_rbg = cv2.rectangle(img_rbg, pt1=(430, 0), pt2=(460, 23), color=(0, 0, 0), thickness=-1)  # hide xp bar
     img_rbg = cv2.rectangle(img_rbg, pt1=(540, 725), pt2=(770, 770), color=(0, 0, 0), thickness=-1)  # hide xp bar
 
-    boundaries = [object_list[colorIndex]]
+    boundaries = [detection_colors[color_index]]
     contours = None
     # loop over the boundaries
 
@@ -65,7 +65,7 @@ def find_object(colorIndex):
 
         mask = cv2.inRange(img_rbg, lower, upper)
         thresh, dst = cv2.threshold(mask, 40, 255, 0)
-        cv2.imwrite("images/mask.png", mask)
+        # cv2.imwrite("images/mask.png", mask)
         contours, hierarchy = cv2.findContours(dst, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     if len(contours) > 0:
         # find the biggest contour (c) by the area
@@ -93,52 +93,54 @@ def get_contour_center(c):
     return x, y
 
 
-def image_count(image, threshold=0.7):
-    """
-    Detects and counts the given image on the screen
-    :param image: The image to detect
-    :param threshold: Detection threshold [0-1]
-    :return:  The number of instances on screen of the image
-    """
-    global screenshot_image
-    counter = 0
-    screen_image()
-
-    img_rgb = screenshot_image
-    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-    template = cv2.imread('images/icons/' + image, 0)
-
-    w, h = template.shape[::-1]
-
-    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-    loc = numpy.where(res >= threshold)
-    for pt in zip(*loc[::-1]):
-        cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-        counter += 1
-    return counter
-
-
-def xp_gain_check_screenshot(image, threshold=0.7):
-    """
-    Checks to see if the player has experience gain on screen
-    :param image: The experience icon to look for
-    :param threshold: Detection threshold [0-1]
-    :return: Was successful
-    """
-    global screenshot_image
-    screen_image()
-    img_gray = cv2.cvtColor(screenshot_image, cv2.COLOR_BGR2GRAY)
-    template = cv2.imread('images/icons/' + image, 0)
-
-    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-    print("Checking for XP", numpy.where(res >= threshold))
-    loc = numpy.where(res >= threshold)
-    for _ in zip(*loc[::-1]):
-        return True
-    return False
+# OLD SWITCHED TO USING MORG HTTP TO CHECK ITEM COUNTS MIGHT USE FOR SOMETHING THOUGH
+# def image_count(image, threshold=0.7):
+#     """
+#     Detects and counts the given image on the screen
+#     :param image: The image to detect
+#     :param threshold: Detection threshold [0-1]
+#     :return:  The number of instances on screen of the image
+#     """
+#     global screenshot_image
+#     counter = 0
+#     screen_image()
+#
+#     img_rgb = screenshot_image
+#     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+#     template = cv2.imread('images/icons/' + image, 0)
+#
+#     w, h = template.shape[::-1]
+#
+#     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+#     loc = numpy.where(res >= threshold)
+#     for pt in zip(*loc[::-1]):
+#         cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+#         counter += 1
+#     return counter
 
 
-def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, clicker='left', img_space=20,
+# OLD MIGHT DELETE MIGHT USE WHO KNOWS AT THIS POINT
+# def xp_gain_check_screenshot(image, threshold=0.7):
+#     """
+#     Checks to see if the player has experience gain on screen
+#     :param image: The experience icon to look for
+#     :param threshold: Detection threshold [0-1]
+#     :return: Was successful
+#     """
+#     global screenshot_image
+#     screen_image()
+#     img_gray = cv2.cvtColor(screenshot_image, cv2.COLOR_BGR2GRAY)
+#     template = cv2.imread('images/icons/' + image, 0)
+#
+#     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+#     print("Checking for XP", numpy.where(res >= threshold))
+#     loc = numpy.where(res >= threshold)
+#     for _ in zip(*loc[::-1]):
+#         return True
+#     return False
+
+
+def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.70, clicker='left', img_space=20,
                            inventory_area=False):
     global screenshot_image
     screen_image()
@@ -150,10 +152,10 @@ def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, cli
         cropX, cropY = (620, 455)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-    template = cv2.imread('images/icons/' + image, 0)
+    template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
     w, h = template.shape[::-1]
     pt = None
-    # print('getting match requirements')
+
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
     threshold = threshold
     loc = numpy.where(res >= threshold)
@@ -162,7 +164,7 @@ def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, cli
     for pt in zip(*loc[::-1]):
         cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
     if pt is None:
-        print("No object found: ", image)
+        print("No object found: ", item_yaml['items'][item_number])
         return item_pos
     else:
         x = random.randrange(img_width, img_width + img_space) + cropX
@@ -179,8 +181,20 @@ def image_rec_click_single(image, img_height=5, img_width=5, threshold=0.70, cli
     return item_pos
 
 
-def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, clicker='left', img_space=10,
+def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825, clicker='left', img_space=10,
                         inventory_area=True, click_interval=0):
+    """
+    Clicks all items on screen based on the item number
+    :param item_number: The code of the OSRS item mapped to the icon.png in items_yaml
+    :param img_height: Height margin of item image
+    :param img_width: Width margin of item image
+    :param threshold: The detection threshold 0-1
+    :param clicker: Mouse button to click with
+    :param img_space: Space between images
+    :param inventory_area: Only detect in inventory area: true or false
+    :param click_interval: Minimum interval between clicks
+    :return: Success?
+    """
     global screenshot_image
     screen_image()
     img_rgb = screenshot_image
@@ -191,7 +205,8 @@ def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, click
         cropX, cropY = (620, 455)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-    template = cv2.imread('images/icons/' + image, 0)
+    print(item_yaml['icon_path'] + item_yaml['items'][item_number])
+    template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
 
     w, h = template.shape[::-1]
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
@@ -214,4 +229,6 @@ def image_rec_click_all(image, img_height=5, img_width=5, threshold=0.825, click
 
             if click_interval > 0:
                 antiafk.random_break(click_interval, click_interval + .8)
+    if not success:
+        print("No object found: ", item_yaml['items'][item_number])
     return success

@@ -6,13 +6,13 @@ import antiafk
 import botfunctions
 import imgdetection
 
-global running, fish_icon, bot_instance
+global running, fish_ids, bot_instance
 
 
-def start_fishing(ibot, fish='shrimp.png', dispose='BANK'):
-    global running, fish_icon, bot_instance
+def start_fishing(ibot, fish_selection=[317, 321], dispose='BANK'):
+    global running, fish_ids, bot_instance
     bot_instance = ibot
-    fish_icon = fish
+    fish_ids = fish_selection
     running = True
     while running:
         botfunctions.open_inventory()
@@ -25,7 +25,7 @@ def start_fishing(ibot, fish='shrimp.png', dispose='BANK'):
             running = False
         else:
             bot_instance.bot_status.value = 3
-            imgdetection.find_object(0)
+            imgdetection.object_rec_click_closest_single(0)
             bot_instance.bot_status.value = 0
             antiafk.random_break(8, 15)
 
@@ -36,7 +36,8 @@ def drop_all_fish():
     print("Dropping fish")
     bot_instance.bot_status.value = 4
     botfunctions.drop_item()
-    imgdetection.image_rec_click_all(fish_icon)
+    for item_id in fish_ids:
+        imgdetection.image_rec_click_all(item_id)
     botfunctions.release_drop_item()
 
 
@@ -45,9 +46,9 @@ def deposit_in_bank():
     bot_instance.bot_status.value = 2
     print("Depositing fish in bank")
     antiafk.random_break(.3, .8)
-    imgdetection.find_object(4)
+    imgdetection.object_rec_click_closest_single(4)
     antiafk.random_break(20, 25)
-    imgdetection.find_object(4)
+    imgdetection.object_rec_click_closest_single(4)
     antiafk.random_break(.7, 1.5)
     drop_all_fish()
     antiafk.random_break(1, 3)

@@ -37,8 +37,10 @@ class Bot:
         else:
             self.bot_mode.value = 100
 
-        self.bot_thread.terminate()
-        self.bot_thread = None
+        pyautogui.press('shift')
+        if self.bot_thread is not None:
+            self.bot_thread.terminate()
+            self.bot_thread = None
 
     def process_loop(self, active_modes):
         pyautogui.FAILSAFE = False

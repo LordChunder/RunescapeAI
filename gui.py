@@ -2,14 +2,12 @@ import logging
 import random
 import tkinter
 import webbrowser
+import os
 from tkinter import *
 
 import pyautogui
 
-import main
-from main import on_exit_program
-
-global status_label, start_button, window, console_buffer, console_label, mode_label
+global status_label, start_button, window, console_buffer, console_label, mode_label, bot_instance
 
 mode_string = {99: "Canceled (Error)", 100: "STOPPED", 101: "STARTING",
                0: "WOODCUTTING", 1: "FISHING", 2: "COMBAT"}
@@ -52,8 +50,9 @@ class LogStream(object):
         pass
 
 
-def build_ui():
-    global status_label, start_button, window, console_buffer, console_label, mode_label
+def build_ui(ibot):
+    global status_label, start_button, window, console_buffer, console_label, mode_label, bot_instance
+    bot_instance = ibot
     window = tkinter.Tk()
 
     window.title("RunescapeAI")
@@ -82,16 +81,22 @@ def build_ui():
     console_label = tkinter.Text(window)
     console_label.pack()
 
-    window.protocol("WM_DELETE_WINDOW", on_exit_program)
+    window.protocol("WM_DELETE_WINDOW", on_window_exit_pressed)
 
     log_stream = LogStream(console_label)
     logging.basicConfig(stream=log_stream, level=logging.INFO)
 
 
 def update_loop():
-    update_status_label(main.bot_instance.bot_mode.value)
+    update_status_label(bot_instance.bot_mode.value)
     window.update_idletasks()
     window.update()
+
+
+def on_window_exit_pressed():
+    pyautogui.press('shift')
+    # noinspection PyUnresolvedReferences,PyProtectedMember
+    os._exit(0)
 
 
 def update_status_label(status):
@@ -101,14 +106,14 @@ def update_status_label(status):
     if status == 99 or status == 100:
         status_label.config(text="")
     else:
-        status_label.config(text="(" + status_string[main.bot_instance.bot_status.value] + ")")
+        status_label.config(text="(" + status_string[bot_instance.bot_status.value] + ")")
 
 
 def on_run_clicked(checked_modes):
     global status_label, start_button
 
-    if main.bot_instance.bot_running:
-        main.bot_instance.stop_bot()
+    if bot_instance.bot_running:
+        bot_instance.stop_bot()
         update_status_label(100)
         start_button.config(text="Run")
         checked_modes.enable()
@@ -127,4 +132,4 @@ def on_run_clicked(checked_modes):
     start_button.config(text="Stop")
     random.shuffle(selected_modes)
 
-    main.bot_instance.start_bot(selected_modes)
+    bot_instance.start_bot(selected_modes)

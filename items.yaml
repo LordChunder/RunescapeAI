@@ -1,0 +1,21 @@
+icon_path: images/icons/
+
+
+# Items are added in the format: item_number:icon_file_name
+# Example for willow logs:  1519: log_willow.png
+
+items:
+  #Wood
+  1519: log_willow.png #Willow
+  1511: log_wood.png   #Wood
+  1521: log_wood.png   #Oak
+  #Monster Drops
+  526: bones.png #Bones
+  2132: raw_beef.png #Raw Beef
+  1739: cow_hide.png #Cow Hide
+  #Fish
+  317: raw_shrimp.png #Shrimp
+  321: raw_shrimp.png #Anchovies
+
+
+
