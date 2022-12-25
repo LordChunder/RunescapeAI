@@ -13,7 +13,7 @@ from core import config_yaml, item_yaml, get_runelite_window_size
 global screenshot_image, rescale_factor
 global bot
 
-save_debug_screenshots = True
+save_debug_screenshots = False
 
 
 def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830)):
