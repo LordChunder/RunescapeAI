@@ -2,61 +2,72 @@ import math
 import random
 
 import cv2
+import imutils
 import numpy
 import pyautogui
 from PIL import ImageGrab
 
 import antiafk
-from core import item_yaml, get_window_size
+from core import item_yaml, get_runelite_window_size
 
 global screenshot_image
+global bot
 
+save_debug_screenshots = True
 # Detectable Colors
 # BGR
 red = ([0, 0, 160], [20, 20, 255])  # 0 Index
-green = ([0, 180, 0], [80, 255, 80])  # 1 Index
+green = ([0, 180, 0], [50, 255, 50])  # 1 Index
 amber = ([0, 200, 200], [60, 255, 255])  # 2 Index
 enemy_blue = ([170, 170, 0], [255, 255, 50])  # 3 Index
 blue = ([170, 0, 0], [255, 50, 50])  # 4 Index
 
 detection_colors = [red, green, amber, enemy_blue, blue]
 
+rescale_factor = 1, 1
 
-def screen_image(save_screenshot=False):
+
+def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830)):
     """
     Screenshots the RuneLite client area and updates the global variable
+    :param target_size: Target resize
     :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
     """
-    global screenshot_image
-    x, y, w, h = get_window_size()
-    img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
-
+    global screenshot_image, rescale_factor
+    rect = get_runelite_window_size(bot)
+    img = ImageGrab.grab(bbox=rect)
+    img.save('images/test.png', 'png')
     # noinspection PyTypeChecker
     screenshot_image = numpy.array(img)[:, :, ::-1].copy()
+    rescale_factor = (target_size[0] / img.size[0]), (target_size[1] / img.size[1])
+    screenshot_image = cv2.resize(screenshot_image, target_size, interpolation=cv2.INTER_AREA)
 
     if save_screenshot:
-        img.save('images/screenshot.png', 'png')
+        cv2.imwrite('images/screenshot.png', screenshot_image)
 
 
-def object_rec_click_closest_single(color_index):
+def object_rec_click_closest_single(color_index, save_screenshot=save_debug_screenshots):
     """
     Find the position of an object on screen within the range of the specified color
     Arguments:
     :param color_index: The color to detect
+    :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
     :return:  The center of the closest object to the player otherwise False
     """
 
     global screenshot_image
     screen_image()
     img_rbg = screenshot_image
-    img_rbg = cv2.rectangle(img_rbg, pt1=(562, 0), pt2=(825, 183), color=(0, 0, 0), thickness=-1)  # hide minimap
-    img_rbg = cv2.rectangle(img_rbg, pt1=(430, 0), pt2=(460, 23), color=(0, 0, 0), thickness=-1)  # hide xp bar
-    img_rbg = cv2.rectangle(img_rbg, pt1=(540, 725), pt2=(770, 770), color=(0, 0, 0), thickness=-1)  # hide xp bar
+    img_rbg = cv2.rectangle(img_rbg, pt1=(615, 0), pt2=(865, 205), color=(0, 0, 0), thickness=-1)  # hide minimap
+    img_rbg = cv2.rectangle(img_rbg, pt1=(490, 0), pt2=(605, 55), color=(0, 0, 0), thickness=-1)  # hide xp bar
+    img_rbg = cv2.rectangle(img_rbg, pt1=(625, 480), pt2=(865, 830), color=(0, 0, 0), thickness=-1)  # hide bottom bar
+    img_rbg = cv2.rectangle(img_rbg, pt1=(0, 800), pt2=(520, 830), color=(0, 0, 0), thickness=-1)  # hide bottom bar
 
     boundaries = [detection_colors[color_index]]
-    contours = None
-    # loop over the boundaries
 
+    # loop over the boundaries
+    if save_screenshot:
+        cv2.imwrite('images/screenshot-blacked.png', screenshot_image)
     for (lower, upper) in boundaries:
         # create NumPy arrays from the boundaries
         lower = numpy.array(lower, dtype="uint8")
@@ -64,33 +75,45 @@ def object_rec_click_closest_single(color_index):
         # find the colors within the specified boundaries and apply
 
         mask = cv2.inRange(img_rbg, lower, upper)
-        thresh, dst = cv2.threshold(mask, 40, 255, 0)
-        # cv2.imwrite("images/mask.png", mask)
-        contours, hierarchy = cv2.findContours(dst, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    if len(contours) > 0:
-        # find the biggest contour (c) by the area
-        centers = map(get_contour_center, contours)
-        closest = min(centers, key=lambda c: math.dist(c, [385, 400]))
-        offset = closest[0] + random.randrange(-2, 2), closest[1] + random.randrange(-2, 2)
+        thresh = cv2.threshold(mask, 40, 255, 0)[1]
 
-        b = random.uniform(0.2, 0.4)
-        pyautogui.moveTo(offset, duration=b)
-        b = random.uniform(0.01, 0.05)
-        pyautogui.click(duration=b)
-        return offset
-    else:
-        print("No detected contours")
+        contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours = imutils.grab_contours(contours)
+        closest_dist = 99999999999
+        contour_pos = None
+        for cont in contours:
+            if cont is None:
+                continue
+            moment = cv2.moments(cont)
+            if moment is None or moment["m00"] == 0:
+                continue
+            cX = int(moment["m10"] / moment["m00"])
+            cY = int(moment["m01"] / moment["m00"])
+            dist = math.dist([cX, cY], [420, 425])
+            if dist < closest_dist:
+                contour_pos = cX, cY
+                closest_dist = dist
+            else:
+                continue
+            if save_screenshot:
+                cv2.drawContours(mask, [cont], -1, (0, 255, 0), 2)
+                cv2.circle(mask, contour_pos, 7, (255, 255, 255), -1)
+                cv2.putText(mask, str(contour_pos), (cX - 20, cY - 20),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        if save_screenshot:
+            cv2.imwrite("images/mask.png", mask)
+
+        if contour_pos is not None:
+            click_position = contour_pos[0] * rescale_factor[0], contour_pos[1] * rescale_factor[1]
+            b = random.uniform(0.2, 0.4)
+            pyautogui.moveTo(click_position, duration=b)
+            b = random.uniform(0.01, 0.05)
+            pyautogui.click(duration=b)
+
+            return contour_pos
+        else:
+            print("No detected contours")
         return False
-
-
-def get_contour_center(c):
-    moment = cv2.moments(c)
-    if moment['m00'] == 0:
-        return 9999999, 9999999
-    x = int(moment['m10'] / moment['m00'])
-    y = int(moment['m01'] / moment['m00'])
-
-    return x, y
 
 
 # OLD SWITCHED TO USING MORG HTTP TO CHECK ITEM COUNTS MIGHT USE FOR SOMETHING THOUGH
@@ -140,15 +163,15 @@ def get_contour_center(c):
 #     return False
 
 
-def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.70, clicker='left', img_space=20,
-                           inventory_area=False):
+def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.85, clicker='left', img_space=8,
+                           inventory_area=False, save_screenshot=save_debug_screenshots):
     global screenshot_image
     screen_image()
     img_rgb = screenshot_image
 
     cropX, cropY = 0, 0
     if inventory_area:
-        img_rgb = img_rgb[455:720, 620:820]
+        img_rgb = img_rgb[470:725, 630:820]
         cropX, cropY = (620, 455)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
@@ -162,7 +185,7 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.7
 
     item_pos = 0, 0
     for pt in zip(*loc[::-1]):
-        cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+        cv2.rectangle(img_gray, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
     if pt is None:
         print("No object found: ", item_yaml['items'][item_number])
         return item_pos
@@ -177,12 +200,13 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.7
         pyautogui.moveTo(item_pos, duration=b)
         b = random.uniform(0.1, 0.3)
         pyautogui.click(item_pos, duration=b, button=clicker)
-
+    if save_screenshot:
+        cv2.imwrite("images/screenshot_inv.png", img_gray)
     return item_pos
 
 
-def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825, clicker='left', img_space=10,
-                        inventory_area=True, click_interval=0):
+def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, clicker='left', img_space=8,
+                        inventory_area=True, click_interval=0, save_screenshot=save_debug_screenshots):
     """
     Clicks all items on screen based on the item number
     :param item_number: The code of the OSRS item mapped to the icon.png in items_yaml
@@ -193,6 +217,7 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825,
     :param img_space: Space between images
     :param inventory_area: Only detect in inventory area: true or false
     :param click_interval: Minimum interval between clicks
+    :param save_screenshot: Should debug screenshots?
     :return: Success?
     """
     global screenshot_image
@@ -205,7 +230,6 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825,
         cropX, cropY = (620, 455)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-    print(item_yaml['icon_path'] + item_yaml['items'][item_number])
     template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
 
     w, h = template.shape[::-1]
@@ -214,14 +238,14 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825,
 
     success = False
     for pt in zip(*loc[::-1]):
-        cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+        cv2.rectangle(img_gray, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
         if pt is not None:
             success = True
             x = random.randrange(img_width, img_width + img_space) + cropX
             y = random.randrange(img_height, img_height + img_space) + cropY
             item_pos = pt[0] + img_height + x
             item_pos = (item_pos, pt[1] + img_width + y)
-
+            item_pos = item_pos[0] * rescale_factor[0], item_pos[1] * rescale_factor[1]
             b = random.uniform(0.1, 0.3)
             pyautogui.moveTo(item_pos, duration=b)
             b = random.uniform(0.01, 0.05)
@@ -231,4 +255,6 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.825,
                 antiafk.random_break(click_interval, click_interval + .8)
     if not success:
         print("No object found: ", item_yaml['items'][item_number])
+    if save_screenshot:
+        cv2.imwrite("images/screenshot_inv.png", img_gray)
     return success

@@ -88,9 +88,9 @@ def do_fire_making(num_per_row=6):
 
         # click on tinder and wood
         antiafk.random_break(0.1, 2)
-        imgdetection.image_rec_click_single(wood_id, 5, 5, 0.75, 'left', 8)
+        imgdetection.image_rec_click_single(wood_id)
         antiafk.random_break(0.1, 1)
-        imgdetection.image_rec_click_single('tinderbox.png', 5, 5, 0.75, 'left', 8)
+        imgdetection.image_rec_click_single(590)
         timeout = time.time() + random.uniform(10, 15)
 
         # check for XP gain

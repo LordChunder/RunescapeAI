@@ -6,6 +6,7 @@ icon_path: images/icons/
 
 items:
   #Wood
+  590: tinderbox.png #Tinder box
   1519: log_willow.png #Willow
   1511: log_wood.png   #Wood
   1521: log_wood.png   #Oak

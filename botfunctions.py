@@ -96,7 +96,7 @@ def logout():
     b = random.uniform(0.1, 0.3)
     pyautogui.click(coord, duration=b, button='left')
     antiafk.random_break(.6, 1.5)
-    imgdetection.image_rec_click_single('logoutButton.png')
+    imgdetection.image_rec_click_single(config_yaml['images']['logout_button'])
 
 
 def login():
@@ -107,7 +107,7 @@ def login():
     antiafk.random_break(.8, 1.8)
     pyautogui.press('enter')
     antiafk.random_break(5, 8)
-    imgdetection.image_rec_click_single('playButton.png')
+    imgdetection.image_rec_click_single(config_yaml['images']['play_button'])
     antiafk.random_break(3, 8)
 
 

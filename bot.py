@@ -5,6 +5,8 @@ import time
 import pyautogui
 
 import botfunctions
+import core
+import imgdetection
 from controllers import fishing, woodcutting, combat
 
 
@@ -14,8 +16,12 @@ class Bot:
     def __init__(self):
         self.bot_mode = multiprocessing.Value('I', 100)  # 100 - Stopped, 101 - Starting, 0-99 - Mode Running
         self.bot_status = multiprocessing.Value('I', 0)
+
         self.bot_running = False
         self.bot_thread = None
+
+        self.rl_hwnd = core.hwnd
+
         self.logger = logging.getLogger()
 
     def start_bot(self, active_modes):
@@ -24,6 +30,7 @@ class Bot:
         logging.info("Starting bot with modes: %s", active_modes)
         random.seed = time.time()
         self.bot_mode.value = 101
+
         self.bot_thread = multiprocessing.Process(target=self.process_loop, args=(active_modes,))
         self.bot_thread.start()
         self.bot_running = True
@@ -44,6 +51,7 @@ class Bot:
 
     def process_loop(self, active_modes):
         pyautogui.FAILSAFE = False
+        imgdetection.bot = self
         while True:
             try:
                 self.run_core(active_modes)

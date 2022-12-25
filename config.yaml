@@ -1,6 +1,9 @@
 client_title: 'Runelite - '
-tesseract_path: C:\Program Files\Tesseract-OCR\
 
 user:
   user_name: "Player"
   password: "Password"
+  
+image_paths:
+  logout_button: 'logout_button.png'
+  play_button: 'play_button.png'
