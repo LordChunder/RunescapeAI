@@ -31,7 +31,7 @@ def start_woodcutting(ibot, wood_selection=1511, dispose='BANK'):
         else:
             print("Chopping Wood")
             bot_instance.bot_status.value = 3
-            imgdetection.object_rec_click_closest_single(2)
+            imgdetection.object_rec_click_closest_single('woodcutting_trees')
             bot_instance.bot_status.value = 0
             antiafk.random_break(8, 15)
 
@@ -50,9 +50,9 @@ def deposit_in_bank():
     antiafk.random_break(1, 3)
     print("Depositing wood in bank")
     bot_instance.bot_status.value = 2
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(15, 19)
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(.7, 1.5)
     drop_all_wood()
     antiafk.random_break(1, 3)
@@ -70,7 +70,7 @@ def do_fire_making(num_per_row=6):
     burnCount = 0
     timeoutCount = 0
 
-    imgdetection.object_rec_click_closest_single(4)  # Click the starting point on the screen to move there
+    imgdetection.object_rec_click_closest_single('woodcutting_fire_spot')  # Click the starting point on the screen to move there
 
     antiafk.random_break(8, 15)
 

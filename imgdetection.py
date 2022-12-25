@@ -8,23 +8,12 @@ import pyautogui
 from PIL import ImageGrab
 
 import antiafk
-from core import item_yaml, get_runelite_window_size
+from core import config_yaml, item_yaml, get_runelite_window_size
 
-global screenshot_image
+global screenshot_image, rescale_factor
 global bot
 
 save_debug_screenshots = True
-# Detectable Colors
-# BGR
-red = ([0, 0, 160], [20, 20, 255])  # 0 Index
-green = ([0, 180, 0], [50, 255, 50])  # 1 Index
-amber = ([0, 200, 200], [60, 255, 255])  # 2 Index
-enemy_blue = ([170, 170, 0], [255, 255, 50])  # 3 Index
-blue = ([170, 0, 0], [255, 50, 50])  # 4 Index
-
-detection_colors = [red, green, amber, enemy_blue, blue]
-
-rescale_factor = 1, 1
 
 
 def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830)):
@@ -46,11 +35,11 @@ def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830))
         cv2.imwrite('images/screenshot.png', screenshot_image)
 
 
-def object_rec_click_closest_single(color_index, save_screenshot=save_debug_screenshots):
+def object_rec_click_closest_single(color_name, save_screenshot=save_debug_screenshots):
     """
     Find the position of an object on screen within the range of the specified color
     Arguments:
-    :param color_index: The color to detect
+    :param color_name: The name of color in config_yaml to detect
     :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
     :return:  The center of the closest object to the player otherwise False
     """
@@ -63,8 +52,8 @@ def object_rec_click_closest_single(color_index, save_screenshot=save_debug_scre
     img_rbg = cv2.rectangle(img_rbg, pt1=(625, 480), pt2=(865, 830), color=(0, 0, 0), thickness=-1)  # hide bottom bar
     img_rbg = cv2.rectangle(img_rbg, pt1=(0, 800), pt2=(520, 830), color=(0, 0, 0), thickness=-1)  # hide bottom bar
 
-    boundaries = [detection_colors[color_index]]
-
+    boundaries = [config_yaml['detect_colors'][color_name]]
+    print("Detecting object (color): ", color_name)
     # loop over the boundaries
     if save_screenshot:
         cv2.imwrite('images/screenshot-blacked.png', screenshot_image)

@@ -25,7 +25,7 @@ def start_fishing(ibot, fish_selection=[317, 321], dispose='BANK'):
             running = False
         else:
             bot_instance.bot_status.value = 3
-            imgdetection.object_rec_click_closest_single(0)
+            imgdetection.object_rec_click_closest_single('fishing_spot')
             bot_instance.bot_status.value = 0
             antiafk.random_break(8, 15)
 
@@ -46,9 +46,9 @@ def deposit_in_bank():
     bot_instance.bot_status.value = 2
     print("Depositing fish in bank")
     antiafk.random_break(.3, .8)
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(20, 25)
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(.7, 1.5)
     drop_all_fish()
     antiafk.random_break(1, 3)

@@ -19,7 +19,7 @@ def start_combat(ibot, drop_items=[2132, 1739]):
     while running:
         print("Attacking enemy")
         bot_instance.bot_status.value = 3
-        imgdetection.object_rec_click_closest_single(3)
+        imgdetection.object_rec_click_closest_single('combat_enemy')
         bot_instance.bot_status.value = 0
         noCombatTimer = 0
         interval = random.uniform(4.5, 6.5)
@@ -72,7 +72,7 @@ def pray_with_bones(bones_id=526):
 
 
 def pickup_bones():
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('item_pickup')
     antiafk.random_break(1.7, 3)
-    imgdetection.object_rec_click_closest_single(4)
+    imgdetection.object_rec_click_closest_single('item_pickup')
     antiafk.random_break(.3, .7)
