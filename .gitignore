@@ -1,5 +1,5 @@
-!images/icons
-images
+!images/
+images/*
+!images/icons/
 .idea
 *.pyc
-config.yaml
