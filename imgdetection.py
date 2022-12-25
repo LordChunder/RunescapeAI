@@ -13,7 +13,7 @@ from core import config_yaml, item_yaml, get_runelite_window_size
 global screenshot_image, rescale_factor
 global bot
 
-save_debug_screenshots = False
+save_debug_screenshots = True
 
 
 def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830)):
@@ -28,7 +28,8 @@ def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830))
     img.save('images/test.png', 'png')
     # noinspection PyTypeChecker
     screenshot_image = numpy.array(img)[:, :, ::-1].copy()
-    rescale_factor = (target_size[0] / img.size[0]), (target_size[1] / img.size[1])
+    rescale_factor = (img.size[0]) / target_size[0], (img.size[1] / target_size[1])
+    print(rescale_factor)
     screenshot_image = cv2.resize(screenshot_image, target_size, interpolation=cv2.INTER_AREA)
 
     if save_screenshot:
