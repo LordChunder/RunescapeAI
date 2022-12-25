@@ -70,7 +70,8 @@ def do_fire_making(num_per_row=6):
     burnCount = 0
     timeoutCount = 0
 
-    imgdetection.object_rec_click_closest_single('woodcutting_fire_spot')  # Click the starting point on the screen to move there
+    imgdetection.object_rec_click_closest_single(
+        'woodcutting_fire_spot')  # Click the starting point on the screen to move there
 
     antiafk.random_break(8, 15)
 

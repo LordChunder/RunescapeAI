@@ -1,4 +1,5 @@
 import win32com.client
+# noinspection PyPackageRequirements
 import win32gui
 import yaml
 

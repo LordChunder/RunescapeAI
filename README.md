@@ -47,7 +47,7 @@
     * Enter your OSRS username and password. This is used to automatically log out and login during the break period.
     * Configure the colors used for object detection under ```detect_colors:```
         * Format: ```[[B_low,R_low,G_low],[B_high,R_high,G_high]]```
-        * IMPORTANT: Do not remove or edit the ```object_name:``` this will cause the program to crash Only edit the
+        * IMPORTANT: Do not remove or edit the ```object_name:``` this will cause the program to crash. Only edit the
           color range value.
         * The high range BRG values should equal the BRG value set in RuneLite for that color. The low value is used to
           determine the
@@ -61,7 +61,7 @@
     * To configure the items that RunescapeAI can interact/detect edit ```items:```
         * Format: ```item_id: image_file_name```
         * Use Snipping Tool or any other method to obtain an image of the item. Ensure the background is plain and
-          perferably the OSRS inventory background.
+          preferably the OSRS inventory background.
         * To find the id for OSRS items visit: <https://www.osrsbox.com/tools/item-search/>
 
 ## How To Use
@@ -79,7 +79,7 @@ highlighted entities in RuneLite.
 * Any in game items that need to interact with the bot (ie pickup, drop, eat, combine) need to be configured
   in [items.yaml](items.yaml) ([Set-Up](#set-up))
 * When selected multiple modes to run it is crucial that colors do not overlap between modes. Example:
-    * If fishing and woodcutting make sure the highlited trees and fishing spots are not the same color as the bot will
+    * If fishing and woodcutting make sure the highlighted trees and fishing spots are not the same color as the bot will
       not be able to distinguish between trees and fishing spots.
 
 To run start and run RunescapeAI:
