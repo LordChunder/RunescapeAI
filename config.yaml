@@ -1,10 +1,8 @@
 client_title: 'Runelite - '
 morg_url: http://localhost:8081
-runelite_size: [ 865,830 ] # Dont change unless you edit the imagedetection.py blackout areas and inventory size problems will arise with detecting inventory items
+runelite_size: [ 865,830 ] # Don't change unless you edit the imagedetection.py blackout areas and inventory size problems will arise with detecting inventory items
 
 user:
-  user_name: "Player"
-  password: "Password"
 
 detect_colors: #BGR Format (Low range: High Range)
   fishing_spot: [ [ 0, 0, 160 ], [ 20, 20, 255 ] ] # Red
