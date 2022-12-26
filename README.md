@@ -18,17 +18,24 @@
   Download Python from: <https://www.python.org/downloads/>
     * For dependencies see [requirements.txt](/requirements.txt)
 + RuneLite Old School RuneScape Client <https://runelite.net/>
-    * MorgHTTP <https://runelite.net/plugin-hub/show/morghttpclient>
+    * (Plugin) MorgHTTP <https://runelite.net/plugin-hub/show/morghttpclient>
 
 ## Set-Up
+
 ***Download and unzip RunescapeAI from:***
-    <https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip>
+<https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip>
 
 1. Install Python 3.8 or higher <https://www.python.org/downloads/>
 2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
     * Open a console inside the root RunscapeAI folder.
     * run ```$ pip install -r requirements.txt```
-3. Configure RuneLite
+3. **IMPORTANT:** Make sure your monitor scaling is at 100% or RunescapeAI will not be able to detect properly.
+    1. Right click and go to `Display Settings`
+    2. Make sure `Change the size of text, apps and other items` is set at `100%`
+    3. Make sure your monitor resultion is at least `1920x1080px`
+        * ![display_settings_help.png](docs/images/display_settings_help.png)* ![display_settings_selection.png](docs/images/display_settings_selection.png)
+
+5. Configure RuneLite
     * Ensure `MorgHTTPClient` is
       installed and
       enabled [https://runelite.net/plugin-hub/show/morghttpclient](https://runelite.net/plugin-hub/show/morghttpclient)
@@ -42,12 +49,13 @@
           include items in the HUD as this screen area is excluded.
         * Good colors are (BGR): Red (0, 0, 225), Blue (225,0,0), Light Blue (225,225,0), Amber (225,225,0)
 
-4. Configure RunescapeAI's [config.yaml](/config.yaml)
+5. Configure RunescapeAI's [config.yaml](/config.yaml)
     * Open [config.yaml](/config.yaml) in a text editor.
     * Enter your OSRS username and password. This is used to automatically log out and login during the break period.
     * Configure the colors used for object detection under ```detect_colors:```
         * Format: ```[[B_low,R_low,G_low],[B_high,R_high,G_high]]```
-        * IMPORTANT: Do not remove or edit the ```object_name:``` this will cause the program to crash. Only edit the
+        * **IMPORTANT:** Do not remove or edit the ```object_name:``` this will cause the program to crash. Only edit
+          the
           color range value.
         * The high range BRG values should equal the BRG value set in RuneLite for that color. The low value is used to
           determine the
@@ -55,7 +63,7 @@
         * If not cycling multiple bot modes it is okay for colors to overlap if they are not part of the same mode.
     * By default ```image_paths``` should contain the correct paths. If you edit the location of the menu images, update
       their path here.
-5. OPTIONAL: Configure RunescapeAI's [items.yaml](/items.yaml)
+6. **OPTIONAL:** Configure RunescapeAI's [items.yaml](/items.yaml)
     * Open [config.yaml](/config.yaml) in a text editor.
     * Configure ```icon_path:``` to the path of the icons folder
     * To configure the items that RunescapeAI can interact/detect edit ```items:```
@@ -79,7 +87,8 @@ highlighted entities in RuneLite.
 * Any in game items that need to interact with the bot (ie pickup, drop, eat, combine) need to be configured
   in [items.yaml](items.yaml) ([Set-Up](#set-up))
 * When selected multiple modes to run it is crucial that colors do not overlap between modes. Example:
-    * If fishing and woodcutting make sure the highlighted trees and fishing spots are not the same color as the bot will
+    * If fishing and woodcutting make sure the highlighted trees and fishing spots are not the same color as the bot
+      will
       not be able to distinguish between trees and fishing spots.
 
 To run start and run RunescapeAI:

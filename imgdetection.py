@@ -13,7 +13,7 @@ from core import config_yaml, item_yaml, get_runelite_window_size
 global screenshot_image, rescale_factor
 global bot
 
-save_debug_screenshots = True
+save_debug_screenshots = False
 
 
 def screen_image(save_screenshot=save_debug_screenshots):
@@ -24,7 +24,6 @@ def screen_image(save_screenshot=save_debug_screenshots):
     global screenshot_image, rescale_factor
     rect = get_runelite_window_size(bot)
     img = ImageGrab.grab(bbox=rect)
-    img.save('images/test.png', 'png')
     # noinspection PyTypeChecker
     screenshot_image = numpy.array(img)[:, :, ::-1].copy()
 
@@ -185,6 +184,9 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.8
         pyautogui.moveTo(item_pos, duration=b)
         b = random.uniform(0.1, 0.3)
         pyautogui.click(item_pos, duration=b, button=clicker)
+        b = random.uniform(0.1, 0.3)
+        pyautogui.moveTo((random.randrange(600, 800), random.randrange(400, 475)),
+                         duration=b)  # move mouse out of view
     if save_screenshot:
         cv2.imwrite("images/screenshot_inv.png", img_gray)
     return item_pos
@@ -233,9 +235,11 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, 
             pyautogui.moveTo(item_pos, duration=b)
             b = random.uniform(0.01, 0.05)
             pyautogui.click(item_pos, duration=b, button=clicker)
-
             if click_interval > 0:
                 antiafk.random_break(click_interval, click_interval + .8)
+    b = random.uniform(0.1, 0.3)
+    pyautogui.moveTo((random.randrange(600, 800), random.randrange(400, 475)),
+                     duration=b)  # move mouse out of view
     if not success:
         print("No object found: ", item_yaml['items'][item_number])
     if save_screenshot:
