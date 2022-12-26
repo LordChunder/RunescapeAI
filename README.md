@@ -37,7 +37,7 @@ https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
 3. **IMPORTANT:** Make sure your monitor scaling is at 100% or RunescapeAI will not be able to detect properly.
     1. Right click and go to `Display Settings`
     2. Make sure `Change the size of text, apps and other items` is set at `100%`
-    3. Make sure your monitor resultion is at least `1920x1080px`
+    3. Make sure your monitor resolution is at least `1920x1080px`
         * ![display_settings_help.png](docs/images/display_settings_help.png)* ![display_settings_selection.png](docs/images/display_settings_selection.png)
 
 5. Configure RuneLite
