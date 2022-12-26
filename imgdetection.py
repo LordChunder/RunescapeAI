@@ -16,10 +16,9 @@ global bot
 save_debug_screenshots = True
 
 
-def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830)):
+def screen_image(save_screenshot=save_debug_screenshots):
     """
     Screenshots the RuneLite client area and updates the global variable
-    :param target_size: Target resize
     :param save_screenshot: (Optional) Save screenshot to images/screenshot.png
     """
     global screenshot_image, rescale_factor
@@ -28,9 +27,6 @@ def screen_image(save_screenshot=save_debug_screenshots, target_size=(865, 830))
     img.save('images/test.png', 'png')
     # noinspection PyTypeChecker
     screenshot_image = numpy.array(img)[:, :, ::-1].copy()
-    rescale_factor = (img.size[0]) / target_size[0], (img.size[1] / target_size[1])
-    print(rescale_factor)
-    screenshot_image = cv2.resize(screenshot_image, target_size, interpolation=cv2.INTER_AREA)
 
     if save_screenshot:
         cv2.imwrite('images/screenshot.png', screenshot_image)
@@ -69,8 +65,8 @@ def object_rec_click_closest_single(color_name, save_screenshot=save_debug_scree
 
         contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = imutils.grab_contours(contours)
-        closest_dist = 99999999999
-        contour_pos = None
+        closest_dist = 9999
+        contour_center = None
         for cont in contours:
             if cont is None:
                 continue
@@ -81,26 +77,25 @@ def object_rec_click_closest_single(color_name, save_screenshot=save_debug_scree
             cY = int(moment["m01"] / moment["m00"])
             dist = math.dist([cX, cY], [420, 425])
             if dist < closest_dist:
-                contour_pos = cX, cY
+                contour_center = cX, cY
                 closest_dist = dist
             else:
                 continue
             if save_screenshot:
                 cv2.drawContours(mask, [cont], -1, (0, 255, 0), 2)
-                cv2.circle(mask, contour_pos, 7, (255, 255, 255), -1)
-                cv2.putText(mask, str(contour_pos), (cX - 20, cY - 20),
+                cv2.circle(mask, contour_center, 7, (255, 255, 255), -1)
+                cv2.putText(mask, str(contour_center), (cX - 20, cY - 20),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
         if save_screenshot:
             cv2.imwrite("images/mask.png", mask)
 
-        if contour_pos is not None:
-            click_position = contour_pos[0] * rescale_factor[0], contour_pos[1] * rescale_factor[1]
+        if contour_center is not None:
             b = random.uniform(0.2, 0.4)
-            pyautogui.moveTo(click_position, duration=b)
+            pyautogui.moveTo(contour_center, duration=b)
             b = random.uniform(0.01, 0.05)
             pyautogui.click(duration=b)
 
-            return contour_pos
+            return contour_center
         else:
             print("No detected contours")
         return False
@@ -161,8 +156,8 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.8
 
     cropX, cropY = 0, 0
     if inventory_area:
-        img_rgb = img_rgb[470:725, 630:820]
-        cropX, cropY = (620, 455)
+        img_rgb = img_rgb[475:750, 630:820]
+        cropX, cropY = (630, 475)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
@@ -216,12 +211,11 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, 
 
     cropX, cropY = 0, 0
     if inventory_area:
-        img_rgb = img_rgb[455:720, 620:820]
-        cropX, cropY = (620, 455)
+        img_rgb = img_rgb[475:750, 630:820]
+        cropX, cropY = (630, 475)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
-
     w, h = template.shape[::-1]
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
     loc = numpy.where(res >= threshold)
@@ -235,7 +229,6 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, 
             y = random.randrange(img_height, img_height + img_space) + cropY
             item_pos = pt[0] + img_height + x
             item_pos = (item_pos, pt[1] + img_width + y)
-            item_pos = item_pos[0] * rescale_factor[0], item_pos[1] * rescale_factor[1]
             b = random.uniform(0.1, 0.3)
             pyautogui.moveTo(item_pos, duration=b)
             b = random.uniform(0.01, 0.05)

@@ -1,17 +1,18 @@
 client_title: 'Runelite - '
 morg_url: http://localhost:8081
+runelite_size: [ 865,830 ] # Dont change unless you edit the imagedetection.py blackout areas and inventory size problems will arise with detecting inventory items
 
 user:
   user_name: "Player"
   password: "Password"
 
 detect_colors: #BGR Format (Low range: High Range)
-  fishing_spot: [[0, 0, 160], [20, 20, 255]] # Red
-  woodcutting_trees: [[0, 200, 200], [50, 255, 255]] #Amber/Yellow
-  woodcutting_fire_spot: [[170, 0, 0], [255, 50, 50]] #Blue
-  combat_enemy: [[170, 170, 0], [255, 255, 50]] # Light blue
-  item_pickup: [[170, 0, 0], [255, 50, 50]]  # Blue
-  bank_highlight: [[170, 0, 0], [255, 50, 50]] # Blue
+  fishing_spot: [ [ 0, 0, 160 ], [ 20, 20, 255 ] ] # Red
+  woodcutting_trees: [ [ 0, 200, 200 ], [ 50, 255, 255 ] ] #Amber/Yellow
+  woodcutting_fire_spot: [ [ 170, 0, 0 ], [ 255, 50, 50 ] ] #Blue
+  combat_enemy: [ [ 170, 170, 0 ], [ 255, 255, 50 ] ] # Light blue
+  item_pickup: [ [ 170, 0, 0 ], [ 255, 50, 50 ] ]  # Blue
+  bank_highlight: [ [ 170, 0, 0 ], [ 255, 50, 50 ] ] # Blue
 
 
 image_names:

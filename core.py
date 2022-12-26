@@ -26,31 +26,15 @@ def configure_ui_window():
 
 def find_runelite_window():  # returns PID of runelite app
     global hwnd
-
-    screen_height, screen_width = get_display_size()
-    dX, dY = screen_width / 1920, screen_height / 1080
-
     hwnd = win32gui.FindWindow(None, config_yaml['client_title'] + config_yaml['user']['user_name'])
-    print("Found runescape client window as: ", hwnd, dX, dY, screen_height, screen_width)
+    print("Found runescape client window as: ", hwnd)
 
-    win32gui.MoveWindow(hwnd, 0, int(dY), int(865 * dX), int(830 * dY), True)
+    win32gui.MoveWindow(hwnd, 0, 0, config_yaml['runelite_size'][0], config_yaml['runelite_size'][1], True)
     win32gui.SetActiveWindow(hwnd)
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')
 
     win32gui.SetForegroundWindow(hwnd)
-
-
-def get_display_size():
-    import tkinter
-    root = tkinter.Tk()
-    root.update_idletasks()
-    root.attributes('-fullscreen', False)
-    root.state('iconic')
-    height = root.winfo_screenheight()
-    width = root.winfo_screenwidth()
-    root.destroy()
-    return height, width
 
 
 def get_runelite_window_size(bot):
