@@ -44,7 +44,9 @@ class LogStream(object):
         self.text_box = text_box
 
     def write(self, text):
+        self.text_box.configure(state="normal")
         self.text_box.insert(tkinter.END, text)
+        self.text_box.configure(state="disabled")
 
     def flush(self):
         pass
@@ -65,7 +67,7 @@ def build_ui(ibot):
 
     checked_modes = Checkbar(window, ['Woodcutting', 'Fishing', 'Combat'])
 
-    checked_modes.grid(row=0, columnspan=2,sticky=W+E)
+    checked_modes.grid(row=0, columnspan=2, sticky=W + E)
     checked_modes.config(relief=GROOVE, bd=2)
 
     start_button = tkinter.Button(window, text="Run", command=lambda: on_run_clicked(checked_modes))
@@ -95,8 +97,10 @@ def build_ui(ibot):
     eth_label.grid(row=6, column=1)
     tkinter.Label(window, text="Press Ctrl-C to exit").grid(row=7, columnspan=2)
 
-    console_label = tkinter.Text(window)
+    console_label = tkinter.Text(window, height=15)
+    console_label.configure(state="disabled")
     console_label.grid(row=8, columnspan=2)
+    console_label.rowconfigure(8, weight=1)
     window.protocol("WM_DELETE_WINDOW", on_window_exit_pressed)
 
     log_stream = LogStream(console_label)

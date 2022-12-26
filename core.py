@@ -21,7 +21,8 @@ def configure_ui_window():
     rect = win32gui.GetWindowRect(window)
     w = rect[2] - rect[0]
     h = rect[3] - rect[1]
-    win32gui.MoveWindow(window, 900, 0, w, h, True)
+
+    win32gui.MoveWindow(window, config_yaml['runelite_size'][0]+30, 0, w, h, True)
 
 
 def find_runelite_window():  # returns PID of runelite app
