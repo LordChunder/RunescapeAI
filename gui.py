@@ -50,6 +50,12 @@ class LogStream(object):
         pass
 
 
+def copy_to_clip(tk, text):
+    tk.clipboard_clear()
+    tk.clipboard_append(text)
+    pyautogui.alert("Copied to clipboard:\n" + text)
+
+
 def build_ui(ibot):
     global status_label, start_button, window, console_buffer, console_label, mode_label, bot_instance
     bot_instance = ibot
@@ -59,28 +65,38 @@ def build_ui(ibot):
 
     checked_modes = Checkbar(window, ['Woodcutting', 'Fishing', 'Combat'])
 
-    checked_modes.pack(side=TOP, fill=X)
+    checked_modes.grid(row=0, columnspan=2,sticky=W+E)
     checked_modes.config(relief=GROOVE, bd=2)
 
     start_button = tkinter.Button(window, text="Run", command=lambda: on_run_clicked(checked_modes))
-    start_button.pack()
+    start_button.grid(row=2, columnspan=2)
 
     mode_label = tkinter.Label(window)
-    mode_label.pack()
+    mode_label.grid(row=1, columnspan=2)
 
     status_label = tkinter.Label(window)
-    status_label.pack()
+    status_label.grid(row=3, columnspan=2)
 
     help_label = tkinter.Label(window, text="https://github.com/LordChunder/RunescapeAI", fg="blue", cursor="hand2")
     help_label.bind("<Button-1>",
                     lambda e: webbrowser.open_new_tab("https://github.com/LordChunder/RunescapeAI"))
-    help_label.pack()
-
-    tkinter.Label(window, text="Press Ctrl-C to exit").pack()
+    help_label.grid(row=4, columnspan=2)
+    bmac_label = tkinter.Label(window, text="https://www.buymeacoffee.com/awaiteddev", fg="blue", cursor="hand2")
+    bmac_label.bind("<Button-1>",
+                    lambda e: webbrowser.open_new_tab("https://www.buymeacoffee.com/awaiteddev"))
+    bmac_label.grid(row=5, columnspan=2)
+    btc_label = tkinter.Label(window, text="btc: bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20", fg="orange",
+                              cursor="hand2")
+    btc_label.bind("<Button-1>", lambda e: copy_to_clip(window, 'bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20'))
+    btc_label.grid(column=0, row=6)
+    eth_label = tkinter.Label(window, text="eth: 0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B", fg="orange",
+                              cursor="hand2")
+    eth_label.bind("<Button-1>", lambda e: copy_to_clip(window, '0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B'))
+    eth_label.grid(row=6, column=1)
+    tkinter.Label(window, text="Press Ctrl-C to exit").grid(row=7, columnspan=2)
 
     console_label = tkinter.Text(window)
-    console_label.pack()
-
+    console_label.grid(row=8, columnspan=2)
     window.protocol("WM_DELETE_WINDOW", on_window_exit_pressed)
 
     log_stream = LogStream(console_label)

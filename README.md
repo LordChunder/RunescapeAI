@@ -2,6 +2,11 @@
 
 ### A bot for Old School RuneScape written in Python
 
+> Enjoy the work? Consider supporting the project!
+> * https://www.buymeacoffee.com/awaiteddev
+> * btc: `bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20`
+> * eth: `0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B`
+
 *RunescapeAI is a work in progress and not fully complete*
 
 1. [Requirements](#Requirements)
@@ -15,17 +20,17 @@
 ## Requirements
 
 + Python >= 3.8
-  Download Python from: <https://www.python.org/downloads/>
+  Download Python from: https://www.python.org/downloads/
     * For dependencies see [requirements.txt](/requirements.txt)
-+ RuneLite Old School RuneScape Client <https://runelite.net/>
-    * (Plugin) MorgHTTP <https://runelite.net/plugin-hub/show/morghttpclient>
++ RuneLite Old School RuneScape Client https://runelite.net/
+    * (Plugin) MorgHTTP https://runelite.net/plugin-hub/show/morghttpclient
 
 ## Set-Up
 
 ***Download and unzip RunescapeAI from:***
-<https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip>
+https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
 
-1. Install Python 3.8 or higher <https://www.python.org/downloads/>
+1. Install Python 3.8 or higher https://www.python.org/downloads/
 2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
     * Open a console inside the root RunscapeAI folder.
     * run ```$ pip install -r requirements.txt```
@@ -38,7 +43,7 @@
 5. Configure RuneLite
     * Ensure `MorgHTTPClient` is
       installed and
-      enabled [https://runelite.net/plugin-hub/show/morghttpclient](https://runelite.net/plugin-hub/show/morghttpclient)
+      enabled https://runelite.net/plugin-hub/show/morghttpclient
         * Ensure the port is configured properly in both the plugin and [config.yaml](config.yaml)
     * Enable hold shift to drop items with in game settings.
     * Enable the `Object Markers`,`Ground Markers`,`Ground Items` and `NPC Indicators` to allow in game object
@@ -70,7 +75,7 @@
         * Format: ```item_id: image_file_name```
         * Use Snipping Tool or any other method to obtain an image of the item. Ensure the background is plain and
           preferably the OSRS inventory background.
-        * To find the id for OSRS items visit: <https://www.osrsbox.com/tools/item-search/>
+        * To find the id for OSRS items visit: https://www.osrsbox.com/tools/item-search/
 
 ## How To Use
 
