@@ -58,6 +58,7 @@ def copy_to_clip(tk, text):
     pyautogui.alert("Copied to clipboard:\n" + text)
 
 
+# noinspection SpellCheckingInspection
 def build_ui(ibot):
     global status_label, start_button, window, console_buffer, console_label, mode_label, bot_instance
     bot_instance = ibot
