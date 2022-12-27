@@ -31,6 +31,7 @@ def screen_image(save_screenshot=save_debug_screenshots):
         cv2.imwrite('images/screenshot.png', screenshot_image)
 
 
+# noinspection DuplicatedCode
 def object_rec_click_closest_single(color_name, save_screenshot=save_debug_screenshots):
     """
     Find the position of an object on screen within the range of the specified color
@@ -65,36 +66,35 @@ def object_rec_click_closest_single(color_name, save_screenshot=save_debug_scree
         contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = imutils.grab_contours(contours)
         closest_dist = 9999
-        contour_center = None
+        closest_center = None
         for cont in contours:
             if cont is None:
                 continue
             moment = cv2.moments(cont)
             if moment is None or moment["m00"] == 0:
                 continue
-            cX = int(moment["m10"] / moment["m00"])
-            cY = int(moment["m01"] / moment["m00"])
-            dist = math.dist([cX, cY], [420, 425])
+            cont_center = int(moment["m10"] / moment["m00"]), int(moment["m01"] / moment["m00"])
+            dist = math.dist(cont_center, [420, 425])
             if dist < closest_dist:
-                contour_center = cX, cY
+                closest_center = cont_center
                 closest_dist = dist
             else:
                 continue
             if save_screenshot:
                 cv2.drawContours(mask, [cont], -1, (0, 255, 0), 2)
-                cv2.circle(mask, contour_center, 7, (255, 255, 255), -1)
-                cv2.putText(mask, str(contour_center), (cX - 20, cY - 20),
+                cv2.circle(mask, closest_center, 7, (255, 255, 255), -1)
+                cv2.putText(mask, str(closest_center), (cont_center[0] - 20, cont_center[1] - 20),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
         if save_screenshot:
             cv2.imwrite("images/mask.png", mask)
 
-        if contour_center is not None:
+        if closest_center is not None:
             b = random.uniform(0.2, 0.4)
-            pyautogui.moveTo(contour_center, duration=b)
+            pyautogui.moveTo(closest_center, duration=b)
             b = random.uniform(0.01, 0.05)
             pyautogui.click(duration=b)
 
-            return contour_center
+            return closest_center
         else:
             print("No detected contours")
         return False
@@ -147,16 +147,17 @@ def object_rec_click_closest_single(color_name, save_screenshot=save_debug_scree
 #     return False
 
 
+# noinspection DuplicatedCode
 def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.85, clicker='left', img_space=8,
                            inventory_area=False, save_screenshot=save_debug_screenshots):
     global screenshot_image
     screen_image()
     img_rgb = screenshot_image
 
-    cropX, cropY = 0, 0
+    crop_x, crop_y = 0, 0
     if inventory_area:
         img_rgb = img_rgb[475:750, 630:820]
-        cropX, cropY = (630, 475)
+        crop_x, crop_y = (630, 475)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
@@ -174,8 +175,8 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.8
         print("No object found: ", item_yaml['items'][item_number])
         return item_pos
     else:
-        x = random.randrange(img_width, img_width + img_space) + cropX
-        y = random.randrange(img_height, img_height + img_space) + cropY
+        x = random.randrange(img_width, img_width + img_space) + crop_x
+        y = random.randrange(img_height, img_height + img_space) + crop_y
         item_pos = pt[0] + img_height + x
         item_pos = (item_pos, pt[1] + img_width + y)
 
@@ -192,6 +193,7 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.8
     return item_pos
 
 
+# noinspection DuplicatedCode
 def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, clicker='left', img_space=8,
                         inventory_area=True, click_interval=0, save_screenshot=save_debug_screenshots):
     """
@@ -211,10 +213,10 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, 
     screen_image()
     img_rgb = screenshot_image
 
-    cropX, cropY = 0, 0
+    crop_x, crop_y = 0, 0
     if inventory_area:
         img_rgb = img_rgb[475:750, 630:820]
-        cropX, cropY = (630, 475)
+        crop_x, crop_y = (630, 475)
 
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_number], 0)
@@ -227,8 +229,8 @@ def image_rec_click_all(item_number, img_height=5, img_width=5, threshold=0.85, 
         cv2.rectangle(img_gray, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
         if pt is not None:
             success = True
-            x = random.randrange(img_width, img_width + img_space) + cropX
-            y = random.randrange(img_height, img_height + img_space) + cropY
+            x = random.randrange(img_width, img_width + img_space) + crop_x
+            y = random.randrange(img_height, img_height + img_space) + crop_y
             item_pos = pt[0] + img_height + x
             item_pos = (item_pos, pt[1] + img_width + y)
             b = random.uniform(0.1, 0.3)

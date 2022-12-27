@@ -9,7 +9,7 @@ import imgdetection
 from core import config_yaml
 
 
-def drop_item():
+def hold_drop_item_button():
     pyautogui.keyUp('shift')
     c = random.uniform(0.1, 0.2)
     d = random.uniform(0.2, 0.23)
@@ -19,7 +19,7 @@ def drop_item():
     time.sleep(d)
 
 
-def release_drop_item():
+def release_drop_item_button():
     e = random.uniform(0.2, 0.3)
     f = random.uniform(0.1, 0.2)
 
@@ -27,6 +27,14 @@ def release_drop_item():
     pyautogui.keyUp('shift')
     pyautogui.press('shift')
     time.sleep(f)
+
+
+def drop_items(item_ids):
+    hold_drop_item_button()
+    for item in item_ids:
+        print("Dropping: ", item)
+        imgdetection.image_rec_click_all(item)
+    release_drop_item_button()
 
 
 def open_inventory():
@@ -37,6 +45,17 @@ def open_inventory():
     pyautogui.press("f1")
     time.sleep(f)
     pyautogui.press("f4")
+
+
+def do_banking():
+    imgdetection.object_rec_click_closest_single('bank_highlight')
+    antiafk.random_break(15, 19)
+    imgdetection.object_rec_click_closest_single('bank_highlight')
+    antiafk.random_break(.7, 1.5)
+    pyautogui.press('esc')
+    antiafk.random_break(.4, 1.2)
+    move(-1 * random.randint(1, 4), -1 * random.randint(5, 9))
+    antiafk.random_break(2, 4)
 
 
 def get_xp_for_skill(skill_name):
@@ -81,9 +100,9 @@ def is_inventory_full():
         for item in r.json():
             if item['id'] != -1:
                 arr.insert(0, item)
-        isFull = len(arr) == 28
-        print("Inventory is full: ", isFull)
-        return isFull
+        is_full = len(arr) == 28
+        print("Inventory is full: ", is_full)
+        return is_full
     except Exception:
         print("Failed to get inventory count")
         return False
@@ -119,11 +138,11 @@ def sleep():
     login()
 
 
-def move(dX=0, dY=0):
+def move(dx=0, dy=0):
     b = random.uniform(0.2, 0.7)
     antiafk.random_break(0.1, 3)
-    coord = 385 + 23 * dX, 400 - 20 * dY
-    print(dX, dY)
+    coord = 385 + 23 * dx, 400 - 20 * dy
+    print(dx, dy)
     pyautogui.moveTo(coord, duration=b)
     antiafk.random_break(0.3, 1)
     pyautogui.click(button='left')

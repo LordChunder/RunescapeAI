@@ -40,7 +40,7 @@ https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
     3. Make sure your monitor resolution is at least `1920x1080px`
         * ![display_settings_help.png](docs/images/display_settings_help.png)* ![display_settings_selection.png](docs/images/display_settings_selection.png)
 
-5. Configure RuneLite
+4. Configure RuneLite
     * Ensure `MorgHTTPClient` is
       installed and
       enabled https://runelite.net/plugin-hub/show/morghttpclient

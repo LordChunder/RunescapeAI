@@ -16,8 +16,10 @@ status_string = {0: "Training", 1: "Resting", 2: "Banking", 3: "Finding Target",
 
 
 class Checkbar(Frame):
-    def __init__(self, parent=None, picks=[], side=LEFT, anchor=W):
+    def __init__(self, parent=None, picks=None, side=LEFT, anchor=W):
         Frame.__init__(self, parent)
+        if picks is None:
+            picks = []
         self.vars = []
         self.checkboxes = []
         for pick in picks:
