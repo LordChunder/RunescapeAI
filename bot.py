@@ -22,8 +22,6 @@ class Bot:
 
         self.rl_hwnd = core.hwnd
 
-        self.logger = logging.getLogger()
-
     def start_bot(self, active_modes):
         if self.bot_running:
             return
@@ -59,18 +57,16 @@ class Bot:
                 self.stop_bot(error=True)
 
     def run_core(self, active_modes):
-        logging.info("Running modes: ", active_modes)
-
-        runtime_seconds = random.uniform(60 * 60 * 1.5, 60 * 60 * 4.5)
+        runtime_seconds = random.uniform(60 * 60 * .75, 60 * 60 * 1.25)
         stop_time = time.time() + runtime_seconds
         time_till_break = stop_time - time.time()
-
+        print("Running modes for seconds:", runtime_seconds, stop_time)
         last_mode = None
         num_mode_repeats = 0
         while time_till_break > 0:
             time_till_break = stop_time - time.time()
             (h, m) = divmod(time_till_break / 60, 60)
-            logging.info("Stopping in: %i:%i", h, m)
+            print("Stopping in (h:m): ", h, m)
 
             index = active_modes[random.randint(0, len(active_modes) - 1)]
             mode = self.modes[index]

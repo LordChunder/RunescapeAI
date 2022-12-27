@@ -31,5 +31,5 @@ def random_action():
 
     if time.time() > nextActionTime:
         index = random.randint(0, len(actions) - 1)
-        random_ui_tab(actions[index])
+        random_ui_tab(list(actions.values())[index])
         nextActionTime = time.time() + random.randint(30, 180)
