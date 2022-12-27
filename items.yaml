@@ -18,5 +18,6 @@ items:
   317: raw_shrimp.png #Shrimp
   321: raw_shrimp.png #Anchovies
 
-
+  logout_button: 'logout_button.png'
+  play_button: 'play_button.png'
 

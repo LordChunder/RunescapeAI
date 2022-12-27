@@ -4,18 +4,15 @@ import time
 import antiafk
 import botfunctions
 import imgdetection
+from core import options_yaml
 
-global running, bot_instance
-
-items_to_drop = []
+global running, bot_instance, items_to_drop
 
 
-def start_combat(ibot, drop_items=None):
-    if drop_items is None:
-        drop_items = [2132, 1739]
+def start_combat(ibot):
     global running, bot_instance, items_to_drop
     bot_instance = ibot
-    items_to_drop = drop_items
+    items_to_drop = options_yaml['combat']['unwanted_items']
 
     running = True
     while running:
@@ -51,7 +48,7 @@ def start_combat(ibot, drop_items=None):
             pray = botfunctions.is_inventory_full()
             drop_unwanted_items()
 
-        if pray:
+        if options_yaml['combat']['pray'] and pray:
             pray_with_bones()
 
         antiafk.random_action()
@@ -63,10 +60,10 @@ def drop_unwanted_items():
     botfunctions.drop_items(items_to_drop)
 
 
-def pray_with_bones(bones_id=526):
+def pray_with_bones():
     print("Praying with bones")
     bot_instance.bot_status.value = 5
-    imgdetection.image_rec_click_all(bones_id, click_interval=.5)
+    imgdetection.image_rec_click_all(options_yaml['combat']['bones_id'], click_interval=.5)
     antiafk.random_break(1.5, 3)
 
 

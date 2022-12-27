@@ -3,14 +3,15 @@ import win32com.client
 import win32gui
 import yaml
 
-global hwnd, item_yaml, config_yaml
+global hwnd, item_yaml, config_yaml, options_yaml
 
 
 def read_config():
-    global config_yaml, item_yaml
+    global config_yaml, item_yaml, options_yaml
     with open('config.yaml', 'r') as file:
         config_yaml = yaml.safe_load(file)
-
+    with open('options.yaml', 'r') as file:
+        options_yaml = yaml.safe_load(file)
     with open('items.yaml', 'r') as file:
         item_yaml = yaml.safe_load(file)
 
@@ -22,7 +23,7 @@ def configure_ui_window():
     w = rect[2] - rect[0]
     h = rect[3] - rect[1]
 
-    win32gui.MoveWindow(window, config_yaml['runelite_size'][0]+30, 0, w, h, True)
+    win32gui.MoveWindow(window, config_yaml['runelite_size'][0] + 30, 0, w, h, True)
 
 
 def find_runelite_window():  # returns PID of runelite app

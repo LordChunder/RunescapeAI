@@ -47,11 +47,12 @@ def open_inventory():
     pyautogui.press("f4")
 
 
-def do_banking():
+def do_banking(item_ids):
     imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(15, 19)
     imgdetection.object_rec_click_closest_single('bank_highlight')
     antiafk.random_break(.7, 1.5)
+    drop_items(item_ids)
     pyautogui.press('esc')
     antiafk.random_break(.4, 1.2)
     move(-1 * random.randint(1, 4), -1 * random.randint(5, 9))
@@ -115,7 +116,7 @@ def logout():
     b = random.uniform(0.1, 0.3)
     pyautogui.click(coord, duration=b, button='left')
     antiafk.random_break(.6, 1.5)
-    imgdetection.image_rec_click_single(config_yaml['image_names']['logout_button'])
+    imgdetection.image_rec_click_single('logout_button')
 
 
 def login():
@@ -126,7 +127,7 @@ def login():
     antiafk.random_break(.8, 1.8)
     pyautogui.press('enter')
     antiafk.random_break(5, 8)
-    imgdetection.image_rec_click_single(config_yaml['image_names']['play_button'])
+    imgdetection.image_rec_click_single('play_button')
     antiafk.random_break(3, 8)
 
 
@@ -138,11 +139,11 @@ def sleep():
     login()
 
 
-def move(dx=0, dy=0):
+def move(dx, dy):
     b = random.uniform(0.2, 0.7)
     antiafk.random_break(0.1, 3)
-    coord = 385 + 23 * dx, 400 - 20 * dy
-    print(dx, dy)
+    coord = 420 + 25 * dx, 425 - 20 * dy
+    print("Moving spaces: ",dx, dy)
     pyautogui.moveTo(coord, duration=b)
     antiafk.random_break(0.3, 1)
     pyautogui.click(button='left')

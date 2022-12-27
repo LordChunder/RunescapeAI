@@ -2,21 +2,22 @@ import antiafk
 import botfunctions
 import imgdetection
 
+from core import options_yaml
+
 global running, fish_ids, bot_instance
 
 
-def start_fishing(ibot, fish_selection=None, dispose='BANK'):
-    if fish_selection is None:
-        fish_selection = [317, 321]
+def start_fishing(ibot):
     global running, fish_ids, bot_instance
+    fish_ids = options_yaml['fishing']['fish_selection']
     bot_instance = ibot
-    fish_ids = fish_selection
+
     running = True
     while running:
         botfunctions.open_inventory()
 
         if botfunctions.is_inventory_full():
-            if dispose == "BANK":
+            if options_yaml['fishing']['dispose_method'] == 'Bank':
                 deposit_in_bank()
             drop_all_fish()
 
@@ -40,4 +41,4 @@ def deposit_in_bank():
     antiafk.random_break(1, 3)
     bot_instance.bot_status.value = 2
     print("Depositing fish in bank")
-    botfunctions.do_banking()
+    botfunctions.do_banking(fish_ids)

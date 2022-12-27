@@ -12,7 +12,3 @@ detect_colors: #BGR Format (Low range: High Range)
   item_pickup: [ [ 170, 0, 0 ], [ 255, 50, 50 ] ]  # Blue
   bank_highlight: [ [ 170, 0, 0 ], [ 255, 50, 50 ] ] # Blue
 
-
-image_names:
-  logout_button: 'logout_button.png'
-  play_button: 'play_button.png'

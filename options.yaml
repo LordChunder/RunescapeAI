@@ -1,0 +1,15 @@
+# Configure the bot modes here
+
+woodcutting:
+  dispose_method: Bank #'Firemaking' or 'Bank' to dispose of wood
+  wood_selection: 1519 #Item id of the wood we are chopping
+
+fishing:
+  dispose_method: Bank #'Drop' or 'Bank' to dispose of the fish
+  fish_selection: [ 317, 321 ] #Item ids of the fish we are gathering
+
+combat:
+  unwanted_items: [ 2132, 1739 ] #Item ids of items we should drop if accidentally picked up
+  pickup_index: 2 #Number of times we have to click to pick up the desired/highlighted item TODO remove and make it so we dont need to use this
+  pray: True
+  bones_id: 526

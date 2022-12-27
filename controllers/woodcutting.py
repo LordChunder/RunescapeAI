@@ -4,14 +4,15 @@ import time
 import antiafk
 import botfunctions
 import imgdetection
+from core import options_yaml
 
 global running, bot_instance, wood_id
 
 
-def start_woodcutting(ibot, wood_selection=1511, dispose='BANK'):
+def start_woodcutting(ibot):
     global running, bot_instance, wood_id
+    wood_id = options_yaml['woodcutting']['wood_selection']
     bot_instance = ibot
-    wood_id = wood_selection
     running = True
 
     while running:
@@ -20,7 +21,7 @@ def start_woodcutting(ibot, wood_selection=1511, dispose='BANK'):
         print("Inventory full: ", inventory_full)
 
         if inventory_full:
-            if dispose == "BANK":
+            if options_yaml['woodcutting']['dispose_method'] == 'Bank':
                 deposit_in_bank()
             else:
                 do_fire_making()
@@ -40,13 +41,14 @@ def start_woodcutting(ibot, wood_selection=1511, dispose='BANK'):
 def drop_all_wood():
     print("Dropping wood")
     bot_instance.bot_status.value = 4
-    botfunctions.drop_items(wood_id)
+    botfunctions.drop_items([wood_id])
 
 
 def deposit_in_bank():
     antiafk.random_break(1, 3)
     print("Depositing wood in bank")
     bot_instance.bot_status.value = 2
+    botfunctions.do_banking([wood_id])
 
 
 def do_fire_making(num_per_row=6):
