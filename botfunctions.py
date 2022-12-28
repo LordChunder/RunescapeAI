@@ -71,7 +71,6 @@ def get_events():
 
     if r.encoding is None:
         r.encoding = 'utf-8'
-    print(r.json())
     return r.json()
 
 
@@ -170,7 +169,7 @@ def move(position):
 
 def wait_until_idle(timeout=10):
     time_elapsed = 0
-    last_time = time.time()
+    start_time = time.time()
     event_json = get_events()
     start_position = event_json['worldPoint']
     while time_elapsed < timeout:
@@ -179,6 +178,5 @@ def wait_until_idle(timeout=10):
                 event_json['animation pose'] == config_yaml['animation']['idle']:
             break
 
-        time_elapsed = time.time() - last_time
-        last_time = time.time()
+        time_elapsed = time.time() - start_time
         time.sleep(0.2)
