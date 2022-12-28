@@ -165,14 +165,20 @@ def move(position):
     pyautogui.moveTo([x, y], duration=b)
     antiafk.random_break(0.1, 0.3)
     pyautogui.click(button='left')
-    antiafk.random_break(0.5, 0.7)
     wait_until_idle()
 
 
 def wait_until_idle(timeout=10):
     time_elapsed = 0
     last_time = time.time()
-    while not get_events()['animation pose'] == config_yaml['animation']['idle'] and time_elapsed < timeout:
+    event_json = get_events()
+    start_position = event_json['worldPoint']
+    while time_elapsed < timeout:
+        event_json = get_events()
+        if start_position != event_json['worldPoint'] and \
+                event_json['animation pose'] == config_yaml['animation']['idle']:
+            break
+
         time_elapsed = time.time() - last_time
         last_time = time.time()
         time.sleep(0.2)
