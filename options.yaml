@@ -17,5 +17,5 @@ fishing:
 combat:
   unwanted_items: [ 2132, 1739 ] #Item ids of items we should drop if accidentally picked up
   pickup_index: 2 #Number of times we have to click to pick up the desired/highlighted item TODO remove and make it so we dont need to use this
-  pray: True
-  bones_id: 526
+  pray: True # pray with bones we pick up
+  bones_id: 526 # the id of the bones to pray with

@@ -99,11 +99,15 @@ highlighted entities in RuneLite.
 To run start and run RunescapeAI:
 
 1. Launch RuneLite and login to your account
-2. Open a console inside the RunescapeAI folder and run command `python main.py`
+    * Ensure proper markers and colors are set for what you are doing ([see setup](#set-up))
+    * Make sure the camera is vertical and zoomed out as much as possible (Hold up / Mouse scroll out)
+2. Configure RunescapeAI [options.yaml](/options.yaml) for the selected modes
+    * Change the settings for the specific bot modes as required, settings are self-explanatory 
+3. Open a console inside the RunescapeAI folder and run command `python main.py`
     * RuneLite must be running prior as the name of this window will be used in the bot to find the RuneLite window
-3. Select the bot modes and click run
+4. Select the bot modes and click run
     * If multiple bot modes are selected they will be cycled randomly
-4. Stop the bot by:
+5. Stop the bot by:
     * Exiting the bot with hotkey: `ctrl-c`
     * Clicking stop
     * Closing the RunescapeAI window
