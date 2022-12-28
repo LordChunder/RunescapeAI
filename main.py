@@ -1,9 +1,7 @@
 import os
-import time
-
 import pyautogui
 from pynput import keyboard
-import botfunctions
+
 import core
 import gui
 from bot import Bot
