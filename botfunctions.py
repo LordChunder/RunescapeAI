@@ -165,9 +165,11 @@ def login():
 
 
 def sleep():
+    if options_yaml['general']['min_time_to_break'] is None:
+        return
     print("Logging out and sleeping")
     logout()
-    antiafk.random_break(30 * 60, 1.25 * 60 * 60)
+    antiafk.random_break(options_yaml['general']['min_sleep_time'] * 60, 1.25 * 60 * 60)
     print("Logging in and restarting")
     login()
 

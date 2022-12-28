@@ -50,14 +50,21 @@ class Bot:
     def process_loop(self, active_modes):
         pyautogui.FAILSAFE = False
         imgdetection.bot = self
+        stop_time = core.options_yaml['general']['max_run_time'] * 60 * 60 + time.time()
+        print("Maximum run time will shut off bot at: ", stop_time)
         while True:
             try:
                 self.run_core(active_modes)
+                if stop_time is not None and time.time() > stop_time:
+                    print("Maximum runtime stopping bot")
+                    self.stop_bot()
+                    return
             except Exception:
                 self.stop_bot(error=True)
 
     def run_core(self, active_modes):
-        runtime_seconds = random.uniform(60 * 60 * .75, 60 * 60 * 1.25)
+        runtime_seconds = random.uniform(core.options_yaml['general']['min_time_to_break'] * 60 * 60,
+                                         core.options_yaml['general']['min_time_to_break'] * 60 * 60 * 1.05)
         stop_time = time.time() + runtime_seconds
         time_till_break = stop_time - time.time()
         print("Running modes for seconds:", runtime_seconds, stop_time)

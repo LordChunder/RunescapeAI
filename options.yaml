@@ -1,6 +1,9 @@
 # Configure the bot modes here
 
 general:
+  min_time_to_break: 1.5 # minimum time until a sleep session hours (log out logback in) set to 'None' to keep running until you shut off
+  min_sleep_time: 30 # minimum sleep time in minutes
+  max_run_time: 1.5 # Hours absolute maximum run time (bot will shut off after this) set to 'None' to keep running until you shut off
   #Max value per movement: x=+-5,y=+-5, split movements up
   walk_before_bank: [ [ 4,2 ] ] #Number of cells [[x,y]] as a list of positions to walk before click on bank (to get to the bank)
   walk_after_bank: [ [ -3,-6 ],[ 0,-3 ] ] #Number of cells [[x,y]] as a list of positions to walk after banking (to get back to the training area)
