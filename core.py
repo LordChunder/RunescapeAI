@@ -23,7 +23,7 @@ def configure_ui_window():
     w = rect[2] - rect[0]
     h = rect[3] - rect[1]
 
-    win32gui.MoveWindow(window, config_yaml['runelite_size'][0] + 30, 0, w, h, True)
+    win32gui.MoveWindow(window, config_yaml['ui']['runelite_size'][0] + 30, 0, w, h, True)
 
 
 def find_runelite_window():  # returns PID of runelite app
@@ -31,7 +31,7 @@ def find_runelite_window():  # returns PID of runelite app
     hwnd = win32gui.FindWindow(None, config_yaml['client_title'] + config_yaml['user']['user_name'])
     print("Found runescape client window as: ", hwnd)
 
-    win32gui.MoveWindow(hwnd, 0, 0, config_yaml['runelite_size'][0], config_yaml['runelite_size'][1], True)
+    win32gui.MoveWindow(hwnd, 0, 0, config_yaml['ui']['runelite_size'][0], config_yaml['ui']['runelite_size'][1], True)
     win32gui.SetActiveWindow(hwnd)
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')

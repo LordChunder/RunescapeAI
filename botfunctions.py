@@ -11,8 +11,8 @@ from core import config_yaml, options_yaml
 
 def hold_drop_item_button():
     pyautogui.keyUp('shift')
-    c = random.uniform(0.1, 0.2)
-    d = random.uniform(0.2, 0.23)
+    c = random.uniform(0.1, 0.3)
+    d = random.uniform(0.1, 0.2)
 
     time.sleep(c)
     pyautogui.keyDown('shift')
@@ -20,7 +20,7 @@ def hold_drop_item_button():
 
 
 def release_drop_item_button():
-    e = random.uniform(0.2, 0.3)
+    e = random.uniform(0.1, 0.3)
     f = random.uniform(0.1, 0.2)
 
     time.sleep(e)
@@ -30,10 +30,28 @@ def release_drop_item_button():
 
 
 def drop_items(item_ids):
+    inv_rect = config_yaml['ui']['inv_rect']
+    r = requests.get(config_yaml['morg_url'] + "/inv")
+    column_offset = (inv_rect[2] - inv_rect[0]) / 4
+    row_offset = (inv_rect[3] - inv_rect[1]) / 7
+    count = [0, 0]
+    b = random.uniform(0.2, 0.5)
+    pyautogui.moveTo(inv_rect[0] + random.randint(2, 10), inv_rect[1] + random.randint(2, 10), duration=b)
     hold_drop_item_button()
-    for item in item_ids:
-        print("Dropping: ", item)
-        imgdetection.image_rec_click_all(item)
+    for item in r.json():
+        if item['quantity'] > 0 and item_ids.count(item['id']) > 0:
+            mouse_pos = inv_rect[0] + column_offset * count[0] + random.randint(5, 15), \
+                        inv_rect[1] + row_offset * count[1] + random.randint(5, 15)
+            b = random.uniform(0.1, 0.3)
+            pyautogui.moveTo(mouse_pos, duration=b)
+            b = random.uniform(0.03, 0.05)
+
+            pyautogui.click(duration=b, button='left')
+
+        count[0] += 1
+        if count[0] == 4:
+            count[0] = 0
+            count[1] += 1
     release_drop_item_button()
 
 

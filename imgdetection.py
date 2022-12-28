@@ -13,7 +13,7 @@ from core import config_yaml, item_yaml, get_runelite_window_size
 global screenshot_image, rescale_factor
 global bot
 
-save_debug_screenshots = False
+save_debug_screenshots = True
 
 
 def screen_image(save_screenshot=save_debug_screenshots):
@@ -182,7 +182,7 @@ def image_rec_click_single(item_number, img_height=5, img_width=5, threshold=0.8
         print("Object found: ", item_pos)
         b = random.uniform(0.2, 0.7)
         pyautogui.moveTo(item_pos, duration=b)
-        b = random.uniform(0.1, 0.3)
+        b = random.uniform(0.01, 0.05)
         pyautogui.click(item_pos, duration=b, button=clicker)
         b = random.uniform(0.1, 0.3)
         pyautogui.moveTo((random.randrange(600, 800), random.randrange(400, 475)),
