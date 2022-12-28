@@ -2,7 +2,7 @@
 
 general:
   #Max value per movement: x=+-5,y=+-5, split movements up
-  walk_before_bank: [[ 0,2] ] #Number of cells [[x,y]] as a list of positions to walk before click on bank (to get to the bank)
+  walk_before_bank: [ [ 4,2 ] ] #Number of cells [[x,y]] as a list of positions to walk before click on bank (to get to the bank)
   walk_after_bank: [ [ -3,-6 ],[ 0,-3 ] ] #Number of cells [[x,y]] as a list of positions to walk after banking (to get back to the training area)
 
 woodcutting:

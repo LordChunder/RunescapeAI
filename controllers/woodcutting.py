@@ -72,7 +72,7 @@ def do_fire_making():
 
         if burn_count > num_per_row:
             antiafk.random_break(2, 4)
-            botfunctions.move(num_per_row, -1)
+            botfunctions.move([num_per_row, -1])
             antiafk.random_break(2, 4)
             burn_count = 0
 
@@ -96,7 +96,7 @@ def do_fire_making():
 
             if time.time() > timeout:
                 print("Fire making timout")
-                botfunctions.move(random.randint(0, 3), -1)
+                botfunctions.move([random.randint(0, 3), -1])
                 antiafk.random_break(2, 4)
                 burn_count = 0
                 timeout_count += 1
