@@ -51,10 +51,10 @@ def deposit_in_bank():
     botfunctions.do_banking([wood_id])
 
 
-def do_fire_making(num_per_row=6):
+def do_fire_making():
     print("Burning Wood")
     antiafk.random_break(1, 3)
-
+    num_per_row = options_yaml['woodcutting']['fires_per_row']
     bot_instance.bot_status.value = 5
     burn_count = 0
     timeout_count = 0

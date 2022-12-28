@@ -126,25 +126,24 @@ def object_rec_click_closest_single(color_name, save_screenshot=save_debug_scree
 #     return counter
 
 
-# OLD MIGHT DELETE MIGHT USE WHO KNOWS AT THIS POINT
-# def xp_gain_check_screenshot(image, threshold=0.7):
-#     """
-#     Checks to see if the player has experience gain on screen
-#     :param image: The experience icon to look for
-#     :param threshold: Detection threshold [0-1]
-#     :return: Was successful
-#     """
-#     global screenshot_image
-#     screen_image()
-#     img_gray = cv2.cvtColor(screenshot_image, cv2.COLOR_BGR2GRAY)
-#     template = cv2.imread('images/icons/' + image, 0)
-#
-#     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-#     print("Checking for XP", numpy.where(res >= threshold))
-#     loc = numpy.where(res >= threshold)
-#     for _ in zip(*loc[::-1]):
-#         return True
-#     return False
+def contains_item_on_screen(item_id, threshold=0.8):
+    """
+    Checks to see if the player has experience gain on screen
+    :param item_id: The id of the item in items.yaml we are looking for
+    :param threshold: Detection threshold [0-1]
+    :return: Was successful
+    """
+    global screenshot_image
+    screen_image()
+    img_gray = cv2.cvtColor(screenshot_image, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(item_yaml['icon_path'] + item_yaml['items'][item_id], 0)
+
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    print("Checking for image", item_id, numpy.where(res >= threshold))
+    loc = numpy.where(res >= threshold)
+    for _ in zip(*loc[::-1]):
+        return True
+    return False
 
 
 # noinspection DuplicatedCode

@@ -6,7 +6,7 @@ import requests
 
 import antiafk
 import imgdetection
-from core import config_yaml
+from core import config_yaml, options_yaml
 
 
 def hold_drop_item_button():
@@ -48,15 +48,31 @@ def open_inventory():
 
 
 def do_banking(item_ids):
-    imgdetection.object_rec_click_closest_single('bank_highlight')
-    antiafk.random_break(15, 19)
-    imgdetection.object_rec_click_closest_single('bank_highlight')
-    antiafk.random_break(.7, 1.5)
+    for movement in options_yaml['general']['walk_before_bank']:
+        move(movement)
+
+    num_tries = 0
+    while not imgdetection.contains_item_on_screen('bank_hud') and num_tries < 3:
+        imgdetection.object_rec_click_closest_single('bank_highlight')
+        wait_until_idle()
+        num_tries += 1
+
     drop_items(item_ids)
     pyautogui.press('esc')
     antiafk.random_break(.4, 1.2)
-    move(-1 * random.randint(1, 4), -1 * random.randint(5, 9))
-    antiafk.random_break(2, 4)
+    for movement in options_yaml['general']['walk_after_bank']:
+        move(movement)
+
+    antiafk.random_break(1.5, 2.7)
+
+
+def get_events():
+    r = requests.get(config_yaml['morg_url'] + "/events")
+
+    if r.encoding is None:
+        r.encoding = 'utf-8'
+    print(r.json())
+    return r.json()
 
 
 def get_xp_for_skill(skill_name):
@@ -111,7 +127,7 @@ def is_inventory_full():
 
 def logout():
     b = random.uniform(0.2, 0.7)
-    coord = 803 + random.randint(0, 8), 3 + random.randint(0, 8),
+    coord = 803 + random.randint(0, 8), 30 + random.randint(0, 8),
     pyautogui.moveTo(coord, duration=b)
     b = random.uniform(0.1, 0.3)
     pyautogui.click(coord, duration=b, button='left')
@@ -139,12 +155,24 @@ def sleep():
     login()
 
 
-def move(dx, dy):
+def move(position):
+    print("Moving spaces: ", position[0], position[1])
+    x, y = 420 + 25 * position[0], 425 - 20 * position[1]
+    # add a random offset in px
+    x += random.randrange(-3, 3)
+    y += random.randrange(-3, 3)
     b = random.uniform(0.2, 0.7)
-    antiafk.random_break(0.1, 3)
-    coord = 420 + 25 * dx, 425 - 20 * dy
-    print("Moving spaces: ",dx, dy)
-    pyautogui.moveTo(coord, duration=b)
-    antiafk.random_break(0.3, 1)
+    pyautogui.moveTo([x, y], duration=b)
+    antiafk.random_break(0.1, 0.3)
     pyautogui.click(button='left')
-    antiafk.random_break(.8, 1.5)
+    antiafk.random_break(0.5, 0.7)
+    wait_until_idle()
+
+
+def wait_until_idle(timeout=10):
+    time_elapsed = 0
+    last_time = time.time()
+    while not get_events()['animation pose'] == config_yaml['animation']['idle'] and time_elapsed < timeout:
+        time_elapsed = time.time() - last_time
+        last_time = time.time()
+        time.sleep(0.2)

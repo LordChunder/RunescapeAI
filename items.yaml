@@ -20,4 +20,5 @@ items:
 
   logout_button: 'logout_button.png'
   play_button: 'play_button.png'
+  bank_hud: 'bank_hud.png'
 

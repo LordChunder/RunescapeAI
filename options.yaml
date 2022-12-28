@@ -1,8 +1,14 @@
 # Configure the bot modes here
 
+general:
+  #Max value per movement: x=+-5,y=+-5, split movements up
+  walk_before_bank: [[ 0,2] ] #Number of cells [[x,y]] as a list of positions to walk before click on bank (to get to the bank)
+  walk_after_bank: [ [ -3,-6 ],[ 0,-3 ] ] #Number of cells [[x,y]] as a list of positions to walk after banking (to get back to the training area)
+
 woodcutting:
   dispose_method: Bank #'Firemaking' or 'Bank' to dispose of wood
   wood_selection: 1519 #Item id of the wood we are chopping
+  fires_per_row: 6 #If firemaking, number of fires before starting a new row
 
 fishing:
   dispose_method: Bank #'Drop' or 'Bank' to dispose of the fish

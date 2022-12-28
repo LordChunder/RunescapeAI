@@ -5,8 +5,10 @@ import pyautogui
 nextActionTime = time.time() + random.randint(30, 180)
 
 
-def random_break(min_sec, max_sec):
+def random_break(min_sec, max_sec, msg=False):
     length = random.uniform(min_sec, max_sec)
+    if msg:
+        print("Breaking for (seconds): ", length)
     time.sleep(length)
 
 

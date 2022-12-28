@@ -9,7 +9,7 @@ import pyautogui
 
 global status_label, start_button, window, console_buffer, console_label, mode_label, bot_instance
 
-mode_string = {99: "Canceled (Error)", 100: "STOPPED", 101: "STARTING",
+mode_string = {99: "Canceled (Error)", 100: "STOPPED", 101: "STARTING", 102: "Sleeping",
                0: "WOODCUTTING", 1: "FISHING", 2: "COMBAT"}
 status_string = {0: "Training", 1: "Resting", 2: "Banking", 3: "Finding Target", 4: "Dropping Items",
                  5: "Consuming Drops"}

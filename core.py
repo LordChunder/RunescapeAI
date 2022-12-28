@@ -2,6 +2,7 @@ import win32com.client
 # noinspection PyPackageRequirements
 import win32gui
 import yaml
+import requests
 
 global hwnd, item_yaml, config_yaml, options_yaml
 

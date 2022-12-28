@@ -82,5 +82,6 @@ class Bot:
 
             mode(self)
             last_mode = mode
-
+        self.bot_mode.value = 102
+        self.bot_status.value = 1
         botfunctions.sleep()
