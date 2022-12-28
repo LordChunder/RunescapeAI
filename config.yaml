@@ -1,10 +1,10 @@
 client_title: 'Runelite - '
 morg_url: http://localhost:8081
-runelite_size: [ 865,830 ] # Don't change unless you edit the imagedetection.py blackout areas and inventory size problems will arise with detecting inventory items
+
 
 user:
-  user_name: "Player"
-  password: "######"
+  user_name: "Password"
+  password: "#####"
 
 detect_colors: #BGR Format (Low range: High Range)
   fishing_spot: [ [ 0, 0, 160 ], [ 20, 20, 255 ] ] # Red
@@ -16,3 +16,9 @@ detect_colors: #BGR Format (Low range: High Range)
 
 animation: #Runescape animation pose numbers
   idle: 808
+
+  # Don't change unless you edit the imgdetection.py blackout areas and inventory size problems will arise with detecting inventory items
+  # Debug screenshots in imgdetection.py to see positions in paint or something else
+ui:
+  runelite_size: [ 865,830 ] #size of runelite window
+  inv_rect: [ 640,490,810,745 ] #inventory area rect of the item grid only (do not include the padding) [ topLeft-x,y,bottomRight-x,y ]
