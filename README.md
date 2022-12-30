@@ -52,7 +52,14 @@ https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
         * The colors will be used with the bots object detection.
         * IMPORTANT: Ensure proper contrast between other in game colors to avoid faulty detection. This does not
           include items in the HUD as this screen area is excluded.
+        * Set outline thickness to `3` for better detection
         * Good colors are (BGR): Red (0, 0, 225), Blue (225,0,0), Light Blue (225,225,0), Amber (225,225,0)
+        * Other plugins such as Fishing could be used instead for highlighting the required object, though these 4
+          plugins cover all the cases and allow changes to the highlight width for better detection
+    * Adjust Runescape display settings
+        * Set display brightness to max
+        * Make sure game client layout is `Resizable - Modern Layout`
+            * ![runelite_display_settings.png](docs/images/runelite_display_settings.png)
 
 5. Configure RunescapeAI's [config.yaml](/config.yaml)
     * Open [config.yaml](/config.yaml) in a text editor.
@@ -102,7 +109,7 @@ To run start and run RunescapeAI:
     * Ensure proper markers and colors are set for what you are doing ([see setup](#set-up))
     * Make sure the camera is vertical and zoomed out as much as possible (Hold up / Mouse scroll out)
 2. Configure RunescapeAI [options.yaml](/options.yaml) for the selected modes
-    * Change the settings for the specific bot modes as required, settings are self-explanatory 
+    * Change the settings for the specific bot modes as required, settings are self-explanatory
 3. Open a console inside the RunescapeAI folder and run command `python main.py`
     * RuneLite must be running prior as the name of this window will be used in the bot to find the RuneLite window
 4. Select the bot modes and click run
