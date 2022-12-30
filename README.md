@@ -9,10 +9,9 @@
 *RunescapeAI is a work in progress and not fully complete*
 
 ***
-### Help and setup
-<span style="font-size:1.5em;">[RunescapeAI Wiki](https://github.com/LordChunder/RunescapeAI/wiki)</span>
+### Help and setup - [RunescapeAI Wiki](https://github.com/LordChunder/RunescapeAI/wiki)
 ***
-### [Requirements](https://github.com/LordChunder/RunescapeAI/wiki#requirements)
+### Requirements
 
 + Python >= 3.8
   Download Python from: https://www.python.org/downloads/
