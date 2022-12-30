@@ -187,7 +187,7 @@ def move(position):
     wait_until_idle()
 
 
-def wait_until_idle(timeout=10):
+def wait_until_idle(timeout=30):
     time_elapsed = 0
     start_time = time.time()
     event_json = get_events()
