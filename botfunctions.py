@@ -29,16 +29,32 @@ def release_drop_item_button():
     time.sleep(f)
 
 
+def get_inv_json():
+    r = None
+    try:
+        r = requests.get(config_yaml['morg_url'] + "/inv")
+        json = r.json()
+        r.close()
+        return json
+    except Exception as e:
+        print("Morg HTTP Error /inv", e)
+        if r is not None:
+            r.close()
+    return None
+
+
 def drop_items(item_ids):
+    json = get_inv_json()
+    if json is None:
+        return
     inv_rect = config_yaml['ui']['inv_rect']
-    r = requests.get(config_yaml['morg_url'] + "/inv")
     column_offset = (inv_rect[2] - inv_rect[0]) / 4
     row_offset = (inv_rect[3] - inv_rect[1]) / 7
     count = [0, 0]
     b = random.uniform(0.2, 0.5)
     pyautogui.moveTo(inv_rect[0] + random.randint(2, 10), inv_rect[1] + random.randint(2, 10), duration=b)
     hold_drop_item_button()
-    for item in r.json():
+    for item in json:
         if item['quantity'] > 0 and item_ids.count(item['id']) > 0:
             mouse_pos = inv_rect[0] + column_offset * count[0] + random.randint(5, 15), \
                         inv_rect[1] + row_offset * count[1] + random.randint(5, 15)
@@ -85,61 +101,59 @@ def do_banking(item_ids):
 
 
 def get_events():
-    r = requests.get(config_yaml['morg_url'] + "/events")
-
-    if r.encoding is None:
-        r.encoding = 'utf-8'
-    return r.json()
+    json = None
+    r = None
+    try:
+        r = requests.get(config_yaml['morg_url'] + "/events")
+        json = r.json()
+        r.close()
+    except Exception as e:
+        print("Morg HTTP Error /events", e)
+        if r is not None:
+            r.close()
+    return json
 
 
 def get_xp_for_skill(skill_name):
+    r = None
     try:
         r = requests.get(config_yaml['morg_url'] + "/stats")
-        if r.status_code != 200:
-            return 0
         json = r.json()
+        r.close()
         del json[0]
-
         for skill in json:
             if skill['stat'] == skill_name:
                 return skill['xp']
         return 0
-    except Exception:
+    except Exception as e:
+        print("Failed to get xp for skill", skill_name, e)
+        if r is not None:
+            r.close()
         return 0
 
 
-def inventory_count(item_id=0):
-    try:
-        r = requests.get(config_yaml['morg_url'] + "/inv")
-        count = 0
-        for item in r.json():
-            if item_id is None:
-                if item['id'] != 1:
-                    count += 1
-            else:
-                if item['id'] == item_id:
-                    count += 1
-
-        print("Inventory count:", item_id, count)
-        return count
-    except Exception:
-        print("Failed to get inventory count")
-        return False
+def inventory_count(item_id=None):
+    json = get_inv_json()
+    if json is None:
+        return 0
+    count = 0
+    for item in json:
+        if item_id is None:
+            if item['id'] != -1:
+                count += 1
+        else:
+            if item['id'] == item_id:
+                count += 1
+    print("Inventory count:", item_id, count)
+    return count
 
 
 def is_inventory_full():
-    try:
-        r = requests.get(config_yaml['morg_url'] + "/inv")
-        arr = []
-        for item in r.json():
-            if item['id'] != -1:
-                arr.insert(0, item)
-        is_full = len(arr) == 28
-        print("Inventory is full: ", is_full)
-        return is_full
-    except Exception:
-        print("Failed to get inventory count")
-        return False
+    is_full = False
+    if inventory_count() == 28:
+        is_full = True
+    print("Inventory is full: ", is_full)
+    return is_full
 
 
 def logout():
@@ -191,6 +205,8 @@ def wait_until_idle(timeout=30):
     time_elapsed = 0
     start_time = time.time()
     event_json = get_events()
+    if event_json is None:
+        return
     start_position = event_json['worldPoint']
     while time_elapsed < timeout:
         event_json = get_events()

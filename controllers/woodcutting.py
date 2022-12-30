@@ -18,7 +18,6 @@ def start_woodcutting(ibot):
     while running:
         botfunctions.open_inventory()
         inventory_full = botfunctions.is_inventory_full()
-        print("Inventory full: ", inventory_full)
 
         if inventory_full:
             if options_yaml['woodcutting']['dispose_method'] == 'Bank':
