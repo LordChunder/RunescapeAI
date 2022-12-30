@@ -1,6 +1,5 @@
 # RunescapeAI
-
-### A bot for Old School RuneScape written in Python
+***A bot for Old School RuneScape written in Python***
 
 > Enjoy the work? Consider supporting the project!
 > * https://www.buymeacoffee.com/awaiteddev
@@ -9,15 +8,11 @@
 
 *RunescapeAI is a work in progress and not fully complete*
 
-1. [Requirements](#Requirements)
-2. [Set-Up](#Set-Up)
-3. [How To Use](#General)
-    * [Wood Cutting](#Wood-Cutting)
-    * [Fishing](#Fishing)
-    * [Combat](#Combat)
-4. [Disclaimer](#Disclaimer)
-
-## Requirements
+***
+### Help and setup
+<span style="font-size:1.5em;">[RunescapeAI Wiki](https://github.com/LordChunder/RunescapeAI/wiki)</span>
+***
+### [Requirements](https://github.com/LordChunder/RunescapeAI/wiki#requirements)
 
 + Python >= 3.8
   Download Python from: https://www.python.org/downloads/
@@ -25,100 +20,7 @@
 + RuneLite Old School RuneScape Client https://runelite.net/
     * (Plugin) MorgHTTP https://runelite.net/plugin-hub/show/morghttpclient
 
-## Set-Up
-
-***Download and unzip RunescapeAI from:***
-https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
-
-1. Install Python 3.8 or higher https://www.python.org/downloads/
-2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
-    * Open a console inside the root RunescapeAI folder.
-    * run ```$ pip install -r requirements.txt```
-3. **IMPORTANT:** Make sure your monitor scaling is at 100% or RunescapeAI will not be able to detect properly.
-    1. Right click and go to `Display Settings`
-    2. Make sure `Change the size of text, apps and other items` is set at `100%`
-    3. Make sure your monitor resolution is at least `1920x1080px`
-        * ![display_settings_help.png](docs/images/display_settings_help.png)* ![display_settings_selection.png](docs/images/display_settings_selection.png)
-
-4. Configure RuneLite
-    * Ensure `MorgHTTPClient` is
-      installed and
-      enabled https://runelite.net/plugin-hub/show/morghttpclient
-        * Ensure the port is configured properly in both the plugin and [config.yaml](config.yaml)
-    * Enable hold shift to drop items with in game settings.
-    * Enable the `Object Markers`,`Ground Markers`,`Ground Items` and `NPC Indicators` to allow in game object
-      highlighting and ensure colors are visible and
-      unique
-        * The colors will be used with the bots object detection.
-        * IMPORTANT: Ensure proper contrast between other in game colors to avoid faulty detection. This does not
-          include items in the HUD as this screen area is excluded.
-        * Set outline thickness to `3` for better detection
-        * Good colors are (BGR): Red (0, 0, 225), Blue (225,0,0), Light Blue (225,225,0), Amber (225,225,0)
-        * Other plugins such as Fishing could be used instead for highlighting the required object, though these 4
-          plugins cover all the cases and allow changes to the highlight width for better detection
-    * Adjust Runescape display settings
-        * Set display brightness to max
-        * Make sure game client layout is `Resizable - Modern Layout`
-            * ![runelite_display_settings.png](docs/images/runelite_display_settings.png)
-
-5. Configure RunescapeAI's [config.yaml](/config.yaml)
-    * Open [config.yaml](/config.yaml) in a text editor.
-    * Enter your OSRS username and password. This is used to automatically log out and login during the break period.
-    * Configure the colors used for object detection under ```detect_colors:```
-        * Format: ```[[B_low,R_low,G_low],[B_high,R_high,G_high]]```
-        * **IMPORTANT:** Do not remove or edit the ```object_name:``` this will cause the program to crash. Only edit
-          the
-          color range value.
-        * The high range BRG values should equal the BRG value set in RuneLite for that color. The low value is used to
-          determine the
-          threshold for that colors detection.
-        * If not cycling multiple bot modes it is okay for colors to overlap if they are not part of the same mode.
-    * By default ```image_paths``` should contain the correct paths. If you edit the location of the menu images, update
-      their path here.
-6. **OPTIONAL:** Configure RunescapeAI's [items.yaml](/items.yaml)
-    * Open [config.yaml](/config.yaml) in a text editor.
-    * Configure ```icon_path:``` to the path of the icons folder
-    * To configure the items that RunescapeAI can interact/detect edit ```items:```
-        * Format: ```item_id: image_file_name```
-        * Use Snipping Tool or any other method to obtain an image of the item. Ensure the background is plain and
-          preferably the OSRS inventory background.
-        * To find the id for OSRS items visit: https://www.osrsbox.com/tools/item-search/
-
-## How To Use
-
-### General
-
-***This document is a work in progress as features are rapidly updating.
-Current use can be demonstrated within the controller python files and ran with the GUI.***
-
-RunescapeAI uses OpenCV image recognition and color based object detection to determine on screen locations of items and
-highlighted entities in RuneLite.
-
-* It is crucial that the object plugins in RuneLite are configured properly or the bot
-  will not be able to detect positions on screen [(Set-up)](#Set-Up)
-* Any in game items that need to interact with the bot (ie pickup, drop, eat, combine) need to be configured
-  in [items.yaml](items.yaml) ([Set-Up](#set-up))
-* When selected multiple modes to run it is crucial that colors do not overlap between modes. Example:
-    * If fishing and woodcutting make sure the highlighted trees and fishing spots are not the same color as the bot
-      will
-      not be able to distinguish between trees and fishing spots.
-
-To run start and run RunescapeAI:
-
-1. Launch RuneLite and login to your account
-    * Ensure proper markers and colors are set for what you are doing ([see setup](#set-up))
-    * Make sure the camera is vertical and zoomed out as much as possible (Hold up / Mouse scroll out)
-2. Configure RunescapeAI [options.yaml](/options.yaml) for the selected modes
-    * Change the settings for the specific bot modes as required, settings are self-explanatory
-3. Open a console inside the RunescapeAI folder and run command `python main.py`
-    * RuneLite must be running prior as the name of this window will be used in the bot to find the RuneLite window
-4. Select the bot modes and click run
-    * If multiple bot modes are selected they will be cycled randomly
-5. Stop the bot by:
-    * Exiting the bot with hotkey: `ctrl-c`
-    * Clicking stop
-    * Closing the RunescapeAI window
-
+***
 #### Disclaimer
 
 <sub>*Botting or using macros is against the rules of OSRS and may result in a ban.
