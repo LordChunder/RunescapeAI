@@ -1,7 +1,9 @@
+import pyautogui
 import win32com.client
 # noinspection PyPackageRequirements
 import win32gui
 import yaml
+import os
 
 global hwnd, item_yaml, config_yaml, options_yaml
 
@@ -28,15 +30,23 @@ def configure_ui_window():
 
 def find_runelite_window():  # returns PID of runelite app
     global hwnd
-    hwnd = win32gui.FindWindow(None, config_yaml['client_title'] + config_yaml['user']['user_name'])
-    print("Found runescape client window as: ", hwnd)
+    try:
+        hwnd = win32gui.FindWindow(None, config_yaml['client_title'] + config_yaml['user']['user_name'])
+        print("Found runescape client window as: ", hwnd)
 
-    win32gui.MoveWindow(hwnd, 0, 0, config_yaml['ui']['runelite_size'][0], config_yaml['ui']['runelite_size'][1], True)
-    win32gui.SetActiveWindow(hwnd)
-    shell = win32com.client.Dispatch("WScript.Shell")
-    shell.SendKeys('%')
+        win32gui.MoveWindow(hwnd, 0, 0, config_yaml['ui']['runelite_size'][0], config_yaml['ui']['runelite_size'][1],
+                            True)
+        win32gui.SetActiveWindow(hwnd)
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shell.SendKeys('%')
 
-    win32gui.SetForegroundWindow(hwnd)
+        win32gui.SetForegroundWindow(hwnd)
+    except Exception:
+        print("Cannot find window")
+        pyautogui.alert("Cannot find RuneLite. Make sure your logged in first or check the config.yaml")
+        pyautogui.press('shift')
+        # noinspection PyUnresolvedReferences,PyProtectedMember
+        os._exit(0)
 
 
 def get_runelite_window_size(bot):

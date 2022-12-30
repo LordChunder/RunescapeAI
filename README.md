@@ -4,8 +4,8 @@
 
 > Enjoy the work? Consider supporting the project!
 > * https://www.buymeacoffee.com/awaiteddev
-> * btc: `bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20`
-> * eth: `0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B`
+> * btc: `bc1qfhawgrtc22uejlh4cs6zfa4388azde8p7wrdzw`
+> * eth: `0xa4e60645CEEc216E271509583dFf0aa0e6Af0B61`
 
 *RunescapeAI is a work in progress and not fully complete*
 
@@ -32,7 +32,7 @@ https://github.com/LordChunder/RunescapeAI/archive/refs/heads/master.zip
 
 1. Install Python 3.8 or higher https://www.python.org/downloads/
 2. Install RunescapeAI dependencies [requirements.txt](/requirements.txt)
-    * Open a console inside the root RunscapeAI folder.
+    * Open a console inside the root RunescapeAI folder.
     * run ```$ pip install -r requirements.txt```
 3. **IMPORTANT:** Make sure your monitor scaling is at 100% or RunescapeAI will not be able to detect properly.
     1. Right click and go to `Display Settings`

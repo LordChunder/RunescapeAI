@@ -90,13 +90,13 @@ def build_ui(ibot):
     bmac_label.bind("<Button-1>",
                     lambda e: webbrowser.open_new_tab("https://www.buymeacoffee.com/awaiteddev"))
     bmac_label.grid(row=5, columnspan=2)
-    btc_label = tkinter.Label(window, text="btc: bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20", fg="orange",
+    btc_label = tkinter.Label(window, text="btc: bc1qfhawgrtc22uejlh4cs6zfa4388azde8p7wrdzw", fg="orange",
                               cursor="hand2")
-    btc_label.bind("<Button-1>", lambda e: copy_to_clip(window, 'bc1qm6hj0vdmrkngjv68xewjlyz58x25eht4232v20'))
+    btc_label.bind("<Button-1>", lambda e: copy_to_clip(window, 'bc1qfhawgrtc22uejlh4cs6zfa4388azde8p7wrdzw'))
     btc_label.grid(column=0, row=6)
-    eth_label = tkinter.Label(window, text="eth: 0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B", fg="orange",
+    eth_label = tkinter.Label(window, text="eth: 0xa4e60645CEEc216E271509583dFf0aa0e6Af0B61", fg="orange",
                               cursor="hand2")
-    eth_label.bind("<Button-1>", lambda e: copy_to_clip(window, '0x94392A6d1b080A8AE431863F0FCf440ad2DbD10B'))
+    eth_label.bind("<Button-1>", lambda e: copy_to_clip(window, '0xa4e60645CEEc216E271509583dFf0aa0e6Af0B61'))
     eth_label.grid(row=6, column=1)
     tkinter.Label(window, text="Press Ctrl-C to exit").grid(row=7, columnspan=2)
 
