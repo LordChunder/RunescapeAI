@@ -9,8 +9,9 @@ from bot import Bot
 
 def hotkey_exit_program():
     pyautogui.press('shift')
+    bot_instance.stop_bot()
     # noinspection PyUnresolvedReferences,PyProtectedMember
-    os._exit(0)
+    os._exit(1)
 
 
 if __name__ == '__main__':
