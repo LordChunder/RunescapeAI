@@ -3,8 +3,7 @@
 
 > Enjoy the work? Consider supporting the project!
 > * https://www.buymeacoffee.com/awaiteddev
-> * btc: `bc1qfhawgrtc22uejlh4cs6zfa4388azde8p7wrdzw`
-> * eth: `0xa4e60645CEEc216E271509583dFf0aa0e6Af0B61`
+
 
 *RunescapeAI is a work in progress and not fully complete*
 
